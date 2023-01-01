@@ -18,9 +18,15 @@
     <ClCompile Include="InteriorPointMethod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="matrix.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="matrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef-matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,10 +2,38 @@
 //
 
 #include <iostream>
+#include "matrix.hpp";
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    ARRAY array1, array2;
+
+    array1 = {
+        { 1, 2, 3 },
+        { 4, 5, 6 },
+        { 7, 8, 9 }
+    };
+
+    array2 = {
+        { 4, 3, 2 },
+        { 2, 4, 5 }
+    };
+
+    Matrix matrix1 = Matrix(array1);
+    Matrix matrix2 = Matrix(array2);
+    Matrix matrix3 = 2.5*matrix2;
+    matrix3 = matrix3.transpose();
+
+    try
+    {
+        Matrix matrix4 = matrix1 * matrix3;
+        matrix4.show();
+    }
+    catch (std::exception e)
+    {
+        std::cout << e.what();
+    }
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
