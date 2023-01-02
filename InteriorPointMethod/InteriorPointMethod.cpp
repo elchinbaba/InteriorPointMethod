@@ -2,9 +2,11 @@
 //
 
 #include <iostream>
+#include <functional>
 #include "matrix.hpp";
+#include "differential.hpp";
 
-int main()
+void checkMatrices()
 {
     ARRAY array1, array2;
 
@@ -21,7 +23,7 @@ int main()
 
     Matrix matrix1 = Matrix(array1);
     Matrix matrix2 = Matrix(array2);
-    Matrix matrix3 = 2.5*matrix2;
+    Matrix matrix3 = 2.5 * matrix2;
     matrix3 = matrix3.transpose();
 
     try
@@ -33,7 +35,27 @@ int main()
     {
         std::cout << e.what();
     }
+}
 
+double sumFUNC(POINT point)
+{
+    return point[0]*point[0] * point[1] * point[2];
+}
+
+void checkDerivatives()
+{
+    std::function<double (POINT)> sumFunc;
+    sumFunc = [](POINT point) { return point[0] * point[0] * point[1] * point[2]; };
+
+    POINT point = { 1, 2, 3 };
+    PARTIALS partials = { 1, 2 };
+
+    std::cout << derivative(sumFunc, point, partials);
+}
+
+int main()
+{
+    checkDerivatives();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

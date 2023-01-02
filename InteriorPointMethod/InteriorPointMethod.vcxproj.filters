@@ -21,12 +21,27 @@
     <ClCompile Include="matrix.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="differential.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="matrix.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="typedef-matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="differential.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef-point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef-partials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef-area.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

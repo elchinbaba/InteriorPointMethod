@@ -139,12 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="differential.cpp" />
     <ClCompile Include="InteriorPointMethod.cpp" />
     <ClCompile Include="matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="differential.hpp" />
     <ClInclude Include="matrix.hpp" />
+    <ClInclude Include="typedef-area.h" />
     <ClInclude Include="typedef-matrix.h" />
+    <ClInclude Include="typedef-partials.h" />
+    <ClInclude Include="typedef-point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
