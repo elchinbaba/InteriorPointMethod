@@ -5,6 +5,8 @@
 #include <functional>
 #include "matrix.hpp";
 #include "differential.hpp";
+#include "function.hpp";
+#include "interior-point-method.hpp";
 
 void checkMatrices()
 {
@@ -53,9 +55,35 @@ void checkDerivatives()
     std::cout << derivative(sumFunc, point, partials);
 }
 
+void checkFunctions()
+{
+    std::cout << linearFunction({ 1, 2, 3 }, { 1, 5, 4});
+}
+
+void checkBarrier()
+{
+    ARRAY A, b;
+
+    A = {
+        { 1, 2, 3 },
+        { 4, 5, 6 },
+        { 7, 8, 9 }
+    };
+
+    b = {
+        {-0.5},
+        {-2},
+        {-3}
+    };
+
+    InteriorPointMethod* ipm = new InteriorPointMethod({ 1, 2, 3 }, Matrix(A), Matrix(b));
+
+    std::cout << ipm->logBarrier();
+}
+
 int main()
 {
-    checkDerivatives();
+    checkBarrier();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

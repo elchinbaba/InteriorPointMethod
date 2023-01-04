@@ -2,6 +2,11 @@
 
 #include <iostream>;
 
+Matrix::Matrix()
+{
+
+}
+
 Matrix::Matrix(unsigned int row, unsigned int col)
 {
 	Matrix::m_row = row;
@@ -14,10 +19,10 @@ Matrix::Matrix(unsigned int row, unsigned int col)
 	}
 }
 
-Matrix::Matrix(ARRAY &matrix)
+Matrix::Matrix(ARRAY& arr)
 {
-	unsigned int row = matrix.size();
-	unsigned int col = matrix[0].size();
+	unsigned int row = arr.size();
+	unsigned int col = arr[0].size();
 
 	Matrix::m_row = row;
 	Matrix::m_col = col;
@@ -28,7 +33,7 @@ Matrix::Matrix(ARRAY &matrix)
 		Matrix::m_array[i].resize(col);
 		for (int j = 0; j < col; j++)
 		{
-			Matrix::m_array[i][j] = matrix[i][j];
+			Matrix::m_array[i][j] = arr[i][j];
 		}
 	}
 }
@@ -46,33 +51,33 @@ void Matrix::show()
 	std::cout << std::endl;
 }
 
-Matrix Matrix::add(Matrix *matrix)
+Matrix Matrix::add(Matrix& matrix)
 {
-	unsigned int row = matrix->m_row;
-	unsigned int col = matrix->m_col;
+	unsigned int row = matrix.m_row;
+	unsigned int col = matrix.m_col;
 
 	Matrix *addedMatrix = new Matrix(row, col);
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
 		{
-			addedMatrix->m_array[i][j] = Matrix::m_array[i][j] + matrix->m_array[i][j];
+			addedMatrix->m_array[i][j] = Matrix::m_array[i][j] + matrix.m_array[i][j];
 		}
 	}
 
 	return *addedMatrix;
 }
 
-Matrix Matrix::multiply(Matrix* matrix)
+Matrix Matrix::multiply(Matrix& matrix)
 {
-	if (Matrix::m_col != matrix->getRow())
+	if (Matrix::m_col != matrix.getRow())
 	{
 		throw std::exception("ValueError: matrices are not aligned");
 	}
 
 	unsigned int row = Matrix::m_row;
 	unsigned int mid = Matrix::m_col; //matrix.getRow()
-	unsigned int col = matrix->getCol();
+	unsigned int col = matrix.getCol();
 
 	Matrix* multipliedMatrix = new Matrix(row, col);
 	int sum;
@@ -83,7 +88,7 @@ Matrix Matrix::multiply(Matrix* matrix)
 			sum = 0;
 			for (int k = 0; k < mid; k++)
 			{
-				sum += Matrix::m_array[i][k] * matrix->m_array[k][j];
+				sum += Matrix::m_array[i][k] * matrix.m_array[k][j];
 			}
 			multipliedMatrix->m_array[i][j] = sum;
 		}
@@ -111,7 +116,7 @@ Matrix Matrix::transpose()
 
 Matrix Matrix::operator+(Matrix& matrix)
 {
-	return this->add(&matrix);
+	return this->add(matrix);
 }
 
 Matrix Matrix::operator-()
@@ -133,15 +138,16 @@ Matrix Matrix::operator-()
 
 Matrix Matrix::operator-(Matrix& matrix)
 {
-	return this->add(&(-matrix));
+	Matrix minusMatrix = -matrix;
+	return this->add(minusMatrix);
 }
 
 Matrix Matrix::operator*(Matrix& matrix)
 {
-	return this->multiply(&matrix);
+	return this->multiply(matrix);
 }
 
-Matrix operator* (float c, Matrix& matrix)
+Matrix operator* (double c, Matrix& matrix)
 {
 	unsigned int row = matrix.getRow();
 	unsigned int col = matrix.getCol();
@@ -157,4 +163,18 @@ Matrix operator* (float c, Matrix& matrix)
 	}
 
 	return *multipliedMatrix;
+}
+
+Matrix Matrix::convert(VECTOR_DOUBLE& vector)
+{
+	unsigned int row = vector.size();
+	unsigned int col = 1;
+
+	Matrix* convertedMatrix = new Matrix(row, col);
+	for (int i = 0; i < row; i++)
+	{
+		convertedMatrix->m_array[i][0] = vector[i];
+	}
+
+	return *convertedMatrix;
 }

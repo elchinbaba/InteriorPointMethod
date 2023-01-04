@@ -13,36 +13,57 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\differential">
+      <UniqueIdentifier>{363179e3-d708-41f2-a933-e5d907f83993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\matrix">
+      <UniqueIdentifier>{b9f81706-9ce8-4d2c-b190-885ffc93128b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\typedef">
+      <UniqueIdentifier>{9cc6b9c3-4e44-4c9c-8175-d4fce12c1176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\interior-point-method">
+      <UniqueIdentifier>{a7b1856e-6528-4a12-a2c4-f67a7342c84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\interior-point-method\newton-method">
+      <UniqueIdentifier>{2cc848ec-3b92-45c7-b7a2-5bac407e4bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\function">
+      <UniqueIdentifier>{b12e61c7-c554-42e2-a576-677b4250b2f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InteriorPointMethod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="matrix.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="differential.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\differential</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix.cpp">
+      <Filter>Header Files\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="function.cpp">
+      <Filter>Header Files\function</Filter>
+    </ClCompile>
+    <ClCompile Include="interior-point-method.cpp">
+      <Filter>Header Files\interior-point-method</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="matrix.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="typedef-matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="differential.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\differential</Filter>
     </ClInclude>
-    <ClInclude Include="typedef-point.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="matrix.hpp">
+      <Filter>Header Files\matrix</Filter>
     </ClInclude>
-    <ClInclude Include="typedef-partials.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="typedef.h">
+      <Filter>Header Files\typedef</Filter>
     </ClInclude>
-    <ClInclude Include="typedef-area.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="interior-point-method.hpp">
+      <Filter>Header Files\interior-point-method</Filter>
+    </ClInclude>
+    <ClInclude Include="function.hpp">
+      <Filter>Header Files\function</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

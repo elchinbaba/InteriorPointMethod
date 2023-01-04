@@ -1,8 +1,6 @@
 #pragma once
 
-#include "typedef-point.h";
-#include "typedef-partials.h";
-#include "typedef-area.h";
+#include "typedef.h";
 
 #include <functional>
 

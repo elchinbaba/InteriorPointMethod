@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedef-matrix.h"
+#include "typedef.h"
 
 #ifndef MATRIX_H
 #define MATRIX_H
@@ -9,7 +9,6 @@ class Matrix
 {
 	private:
 		ARRAY m_array;
-		friend Matrix operator* (float, Matrix&);
 	public:
 		ARRAY getMatrix() { return Matrix::m_array; }
 
@@ -20,12 +19,13 @@ class Matrix
 		unsigned int getCol() { return Matrix::m_col; }
 
 	public:
+		Matrix();
 		Matrix(unsigned int, unsigned int);
 		Matrix(ARRAY&);
 
 		void show();
-		Matrix add(Matrix*);
-		Matrix multiply(Matrix*);
+		Matrix add(Matrix&);
+		Matrix multiply(Matrix&);
 		Matrix transpose();
 
 	public:
@@ -33,8 +33,13 @@ class Matrix
 		Matrix operator- ();
 		Matrix operator- (Matrix&);
 		Matrix operator* (Matrix&);
+
+	friend Matrix operator* (double, Matrix&);
+	
+	public:
+		Matrix static convert(VECTOR_DOUBLE&);
 };
 
-Matrix operator* (float, Matrix&);
+Matrix operator* (double, Matrix&);
 
 #endif

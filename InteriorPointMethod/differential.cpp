@@ -1,7 +1,5 @@
 #include "differential.hpp";
 
-#include <iostream>;
-
 double differential(double (*func) (double x), double a, int n)
 {
 	if (n == 0) return func(a);
