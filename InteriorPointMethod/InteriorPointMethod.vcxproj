@@ -143,13 +143,19 @@
     <ClCompile Include="function.cpp" />
     <ClCompile Include="interior-point-method.cpp" />
     <ClCompile Include="InteriorPointMethod.cpp" />
+    <ClCompile Include="log-barrier-function.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="newton-method.cpp" />
+    <ClCompile Include="struct-ipm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="differential.hpp" />
     <ClInclude Include="function.hpp" />
     <ClInclude Include="interior-point-method.hpp" />
+    <ClInclude Include="log-barrier-function.hpp" />
     <ClInclude Include="matrix.hpp" />
+    <ClInclude Include="newton-method.hpp" />
+    <ClInclude Include="struct-ipm.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

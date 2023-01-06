@@ -1,28 +1,44 @@
 #include "interior-point-method.hpp";
 
+#include "log-barrier-function.hpp";
+
 #include "function.hpp";
 
-#include <math.h>;
+#include <iostream>;
 
-InteriorPointMethod::InteriorPointMethod(COEFFICIENTS c, Matrix A, Matrix b)
+#include <algorithm>
+
+bool comp(int a, int b)
 {
-	InteriorPointMethod::m_c = c;
-	InteriorPointMethod::m_A = A;
-	InteriorPointMethod::m_b = b;
-	for (int i = 0; i < c.size(); i++)
+	return (a < b);
+}
+
+InteriorPointMethod::InteriorPointMethod(IPM ipm)
+{
+	this->ipm = ipm;
+	InteriorPointMethod::m_omega = 0.000005;
+	for (int i = 0; i < ipm.c.size(); i++)
 	{
-		InteriorPointMethod::m_x.push_back(0);
+		InteriorPointMethod::m_x.push_back(*std::max_element(std::begin(ipm.b), std::end(ipm.b)));
 	}
 }
 
-double InteriorPointMethod::logBarrier()
+POINT InteriorPointMethod::calculate()
 {
-	double sum = 0;
-	ARRAY arr_A = InteriorPointMethod::m_A.getMatrix();
-	ARRAY arr_b = InteriorPointMethod::m_b.getMatrix();
-	for (int i = 0; i < arr_A.size(); i++)
+	LogBarrierFunction *lbf = new LogBarrierFunction(ipm, m_omega);
+	NewtonMethod nm = NewtonMethod(lbf, ipm.c.size());
+
+	for (int i = 1; i < 250; i++)
 	{
-		sum -= log(linearFunction(arr_A[i], InteriorPointMethod::m_x) - arr_b[i][0]);
+		lbf->omega = (1 + 0.25) * lbf->omega;
+		try
+		{
+			m_x = nm.iterate(ipm, m_x).convertToVector();
+		}
+		catch (std::exception e)
+		{
+			//std::cout << e.what() << std::endl;
+			return m_x;
+		}
 	}
-	return sum;
 }

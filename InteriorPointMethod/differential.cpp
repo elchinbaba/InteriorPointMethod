@@ -1,67 +1,30 @@
 #include "differential.hpp";
 
-double differential(double (*func) (double x), double a, int n)
+VALUE derivative(Function *function, POINT x, PARTIALS partials)
 {
-	if (n == 0) return func(a);
-	return differential(func, a + EPS, n - 1) - differential(func, a - EPS, n - 1);
-}
-
-double derivative(double (*func) (POINT x), POINT a, PARTIALS partials)
-{
-	int size = partials.size();
+	ARRAY_SIZE size = partials.size();
 	if (size == 0)
 	{
-		return func(a);
+		return function->call(x);
 	}
 
-	int deriving = partials[size - 1];
-
+	UNSIGNED_INT deriving = partials[size - 1];
 	partials.pop_back();
 
-	POINT b, c;
-	for (int i = 0; i < a.size(); i++)
+	POINT backward, forward;
+	for (int i = 0; i < x.size(); i++)
 	{
 		if (i == deriving - 1)
 		{
-			b.push_back(a[i] + EPS);
-			c.push_back(a[i] - EPS);
+			backward.push_back(x[i] + EPS);
+			forward.push_back(x[i] - EPS);
 		}
 		else
 		{
-			b.push_back(a[i]);
-			c.push_back(a[i]);
-		}
-	}
-	
-	return (derivative(func, b, partials) - derivative(func, c, partials))/(2 * EPS);
-}
-
-double derivative(std::function<double (POINT)> func, POINT a, PARTIALS partials)
-{
-	int size = partials.size();
-	if (size == 0)
-	{
-		return func(a);
-	}
-
-	int deriving = partials[size - 1];
-
-	partials.pop_back();
-
-	POINT b, c;
-	for (int i = 0; i < a.size(); i++)
-	{
-		if (i == deriving - 1)
-		{
-			b.push_back(a[i] + EPS);
-			c.push_back(a[i] - EPS);
-		}
-		else
-		{
-			b.push_back(a[i]);
-			c.push_back(a[i]);
+			backward.push_back(x[i]);
+			forward.push_back(x[i]);
 		}
 	}
 
-	return (derivative(func, b, partials) - derivative(func, c, partials)) / (2 * EPS);
+	return (derivative(function, backward, partials) - derivative(function, forward, partials)) / (2 * EPS);
 }

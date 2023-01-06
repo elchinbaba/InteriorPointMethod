@@ -1,0 +1,13 @@
+#include "struct-ipm.h";
+
+IPM::IPM()
+{
+
+}
+
+IPM::IPM(COEFFICIENTS c, INEQUALITY_CONSTRAINT_ARRAY A, INEQUALITY_CONSTRAINT_VECTOR b)
+{
+	this->c = c;
+	this->A = A;
+	this->b = b;
+}

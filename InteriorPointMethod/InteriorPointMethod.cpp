@@ -52,7 +52,7 @@ void checkDerivatives()
     POINT point = { 1, 2, 3 };
     PARTIALS partials = { 1, 2 };
 
-    std::cout << derivative(sumFunc, point, partials);
+    //std::cout << derivative(sumFunc, point, partials);
 }
 
 void checkFunctions()
@@ -76,14 +76,51 @@ void checkBarrier()
         {-3}
     };
 
-    InteriorPointMethod* ipm = new InteriorPointMethod({ 1, 2, 3 }, Matrix(A), Matrix(b));
+    //InteriorPointMethod* ipm = new InteriorPointMethod({ 1, 2, 3 }, Matrix(A), Matrix(b));
 
-    std::cout << ipm->logBarrier();
+    //std::cout << ipm->logBarrier();
+}
+
+void checkDeterminant()
+{
+    ARRAY arr = {
+        { 1, 2, 5 },
+        { 1, 3, 2 },
+        { 8, 4, 5 }
+    };
+
+    std::cout << Matrix(arr).determinant();
+}
+
+void checkInverse()
+{
+    ARRAY arr = {
+           { 1, 2, 5 },
+           { 1, 3, 2 },
+           { 8, 4, 5 }
+    };
+
+    Matrix(arr).inverse().show();
+}
+
+void checkNewton()
+{
+    COEFFICIENTS c = { 1, 1, 1 };
+    INEQUALITY_CONSTRAINT_ARRAY A = {
+        {1, 2, 0},
+        {0, 1, 0},
+        {0, 0, 1},
+        {1, 1, 2},
+        {1, 0, 0}
+    };
+    INEQUALITY_CONSTRAINT_VECTOR b = { 2, 3, 1, 10, 0 };
+
+    Matrix(InteriorPointMethod(IPM(c, A, b)).calculate()).show();
 }
 
 int main()
 {
-    checkBarrier();
+    checkNewton();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

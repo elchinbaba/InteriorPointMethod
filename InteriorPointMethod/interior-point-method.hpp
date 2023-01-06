@@ -1,10 +1,13 @@
 #pragma once
 
 #include "typedef.h";
+#include "struct-ipm.h";
 
 #include "matrix.hpp";
 
 #include "differential.hpp";
+
+#include "newton-method.hpp";
 
 #ifndef INTERIOR_POINT_METHOD_H
 #define INTERIOR_POINT_METHOD_H
@@ -12,15 +15,13 @@
 class InteriorPointMethod
 {
 	private:
-		double m_omega = 0;
-		COEFFICIENTS m_c;
+		IPM ipm;
+
+		OMEGA m_omega;
 		POINT m_x;
-		Matrix m_A;
-		Matrix m_b;
 
 	public:
-		InteriorPointMethod(COEFFICIENTS, Matrix, Matrix);
-		double logBarrier();
+		InteriorPointMethod(IPM);
 		POINT calculate();
 };
 

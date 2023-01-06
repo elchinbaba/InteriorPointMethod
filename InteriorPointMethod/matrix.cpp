@@ -7,34 +7,84 @@ Matrix::Matrix()
 
 }
 
-Matrix::Matrix(unsigned int row, unsigned int col)
+Matrix::Matrix(ROW row, COLUMN column)
 {
 	Matrix::m_row = row;
-	Matrix::m_col = col;
+	Matrix::m_column = column;
 
 	Matrix::m_array.resize(row);
 	for (int i = 0; i < Matrix::m_row; i++)
 	{
-		Matrix::m_array[i].resize(col);
+		Matrix::m_array[i].resize(column);
 	}
 }
 
-Matrix::Matrix(ARRAY& arr)
+Matrix::Matrix(VECTOR_DOUBLE vector)
 {
-	unsigned int row = arr.size();
-	unsigned int col = arr[0].size();
+	ROW row = vector.size();
+	COLUMN column = 1;
 
 	Matrix::m_row = row;
-	Matrix::m_col = col;
+	Matrix::m_column = column;
 
-	Matrix::m_array.resize(row);
+	Matrix::m_array.resize(Matrix::m_row);
+	for (int i = 0; i < Matrix::m_row; i++)
+	{
+		Matrix::m_array[i].push_back(vector[i]);
+	}
+}
+
+Matrix::Matrix(ARRAY &arr)
+{
+	ROW row = arr.size();
+	COLUMN column = arr[0].size();
+
+	Matrix::m_row = row;
+	Matrix::m_column = column;
+
+	Matrix::m_array.resize(Matrix::m_row);
 	for (int i = 0; i < row; i++)
 	{
-		Matrix::m_array[i].resize(col);
-		for (int j = 0; j < col; j++)
+		Matrix::m_array[i].resize(Matrix::m_column);
+		for (int j = 0; j < Matrix::m_column; j++)
 		{
 			Matrix::m_array[i][j] = arr[i][j];
 		}
+	}
+}
+
+ARRAY Matrix::getArray()
+{
+	return Matrix::m_array;
+}
+
+void Matrix::setArray(ARRAY arr)
+{
+	Matrix::m_array = arr;
+}
+
+ROW Matrix::getRow()
+{
+	return Matrix::m_row;
+}
+
+void Matrix::setRow(ROW n)
+{
+	Matrix::m_row = n;
+	Matrix::m_array.resize(n);
+}
+
+COLUMN Matrix::getColumn()
+{
+	return Matrix::m_column;
+}
+
+void Matrix::setColumn(COLUMN m)
+{
+	Matrix::m_column = m;
+	for (int i = 0; i < Matrix::m_array.size(); i++)
+	{
+		Matrix::m_array[i].resize(m);
 	}
 }
 
@@ -42,7 +92,7 @@ void Matrix::show()
 {
 	for (int i = 0; i < Matrix::m_row; i++)
 	{
-		for (int j = 0; j < Matrix::m_col; j++)
+		for (int j = 0; j < Matrix::m_column; j++)
 		{
 			std::cout << Matrix::m_array[i][j] << " ";
 		}
@@ -51,15 +101,15 @@ void Matrix::show()
 	std::cout << std::endl;
 }
 
-Matrix Matrix::add(Matrix& matrix)
+MATRIX Matrix::add(Matrix &matrix)
 {
-	unsigned int row = matrix.m_row;
-	unsigned int col = matrix.m_col;
+	ROW row = matrix.m_row;
+	COLUMN column = matrix.m_column;
 
-	Matrix *addedMatrix = new Matrix(row, col);
+	MATRIX *addedMatrix = new Matrix(row, column);
 	for (int i = 0; i < row; i++)
 	{
-		for (int j = 0; j < col; j++)
+		for (int j = 0; j < column; j++)
 		{
 			addedMatrix->m_array[i][j] = Matrix::m_array[i][j] + matrix.m_array[i][j];
 		}
@@ -68,22 +118,22 @@ Matrix Matrix::add(Matrix& matrix)
 	return *addedMatrix;
 }
 
-Matrix Matrix::multiply(Matrix& matrix)
+MATRIX Matrix::multiply(Matrix &matrix)
 {
-	if (Matrix::m_col != matrix.getRow())
+	if (Matrix::m_column != matrix.getRow())
 	{
 		throw std::exception("ValueError: matrices are not aligned");
 	}
 
-	unsigned int row = Matrix::m_row;
-	unsigned int mid = Matrix::m_col; //matrix.getRow()
-	unsigned int col = matrix.getCol();
+	ROW row = Matrix::m_row;
+	ARRAY_SIZE mid = Matrix::m_column; //matrix.getRow()
+	COLUMN column = matrix.getColumn();
 
-	Matrix* multipliedMatrix = new Matrix(row, col);
-	int sum;
+	MATRIX *multipliedMatrix = new Matrix(row, column);
+	VALUE sum;
 	for (int i = 0; i < row; i++)
 	{
-		for (int j = 0; j < col; j++)
+		for (int j = 0; j < column; j++)
 		{
 			sum = 0;
 			for (int k = 0; k < mid; k++)
@@ -97,15 +147,15 @@ Matrix Matrix::multiply(Matrix& matrix)
 	return *multipliedMatrix;
 }
 
-Matrix Matrix::transpose()
+MATRIX Matrix::transpose()
 {
-	unsigned int row = Matrix::m_col;
-	unsigned int col = Matrix::m_row;
+	ROW row = Matrix::m_column;
+	COLUMN column = Matrix::m_row;
 
-	Matrix* transposedMatrix = new Matrix(row, col);
+	MATRIX *transposedMatrix = new Matrix(row, column);
 	for (int i = 0; i < row; i++)
 	{
-		for (int j = 0; j < col; j++)
+		for (int j = 0; j < column; j++)
 		{
 			transposedMatrix->m_array[i][j] = Matrix::m_array[j][i];
 		}
@@ -114,20 +164,165 @@ Matrix Matrix::transpose()
 	return *transposedMatrix;
 }
 
-Matrix Matrix::operator+(Matrix& matrix)
+VALUE Matrix::determinant()
+{
+	ARRAY_SIZE N = Matrix::m_row;
+	MATRIX massiv = Matrix(Matrix::m_array);
+	int i, j;
+	int r = 0, n = 0;
+	int k;
+	double a_ii, a_ki;
+	for (int i = 0; i < N - 1; i++)
+	{
+		if (massiv.m_array[i][i] != 0)
+		{
+			a_ii = massiv.m_array[i][i];
+			for (k = i + 1; k < N; k++)
+			{
+				a_ki = -massiv.m_array[k][i];
+				for (j = 0; j < N; j++)
+				{
+					massiv.m_array[k][j] += massiv.m_array[i][j] * (a_ki / a_ii);
+				}
+			}
+		}
+		else
+		{
+			int t;
+			for (t = i + 1; t < N; t++)
+			{
+				if (massiv.m_array[i][t] != 0)
+				{
+					break;
+				}
+			}
+
+			if (t != N)
+			{
+				n++;
+				VECTOR_DOUBLE c;
+				c.resize(N);
+				for (j = 0; j < N; j++)
+				{
+					c[j] = massiv.m_array[j][i];
+					massiv.m_array[j][i] = massiv.m_array[j][t];
+					massiv.m_array[j][t] = c[j];
+				}
+				i = i - 1;
+				continue;
+			}
+			else
+			{
+				r = 1; break;
+			}
+		}
+	}
+	double D;
+	switch (r)
+	{
+		case 0:
+			D = pow(-1, n);
+			for (i = 0; i < N; i++)
+				D *= massiv.m_array[i][i];
+			break;
+		case 1:
+			D = 0; break;
+	}
+	return D;
+}
+
+MATRIX Matrix::inverse()
+{
+	ARRAY_SIZE N = Matrix::m_row;
+	MATRIX massiv = Matrix(N, 2 * N);
+	int i, j;
+	double D = Matrix::determinant();
+	MATRIX ters_matris = Matrix(N, N);
+	if (D != 0)
+	{
+		for (i = 0; i < N; i++)
+		{
+			for (j = 0; j < N; j++)
+			{
+				massiv.m_array[i][j] = Matrix::m_array[i][j];
+			}
+			for (j = N; j < 2 * N; j++)
+			{
+				if (j - N == i) massiv.m_array[i][j] = 1;
+				else massiv.m_array[i][j] = 0;
+			}
+		}
+
+		int k, t;
+		double a_ii, a_ki;
+		for (i = 0; i < N; i++)
+		{
+			if (massiv.m_array[i][i] != 0)
+			{
+				a_ii = massiv.m_array[i][i];
+				for (j = 0; j < 2 * N; j++)
+				{
+					massiv.m_array[i][j] /= a_ii;
+				}
+				for (k = 0; k < N; k++)
+				{
+					if (k != i)
+					{
+						a_ki = -massiv.m_array[k][i];
+						for (j = 0; j < 2 * N; j++)
+						{
+							massiv.m_array[k][j] += massiv.m_array[i][j] * a_ki;
+						}
+					}
+				}
+			}
+			else
+			{
+				for (t = i + 1; t < N; t++)
+				{
+					if (massiv.m_array[i][t] != 0)
+					{
+						break;
+					}
+				}
+				VECTOR_DOUBLE c;
+				c.resize(2 * N);
+				for (j = 0; j < 2 * N; j++)
+				{
+					c[j] = massiv.m_array[j][i];
+					massiv.m_array[j][i] = massiv.m_array[j][t];
+					massiv.m_array[j][t] = c[j];
+				}
+				i = i - 1;
+			}
+		}
+		for (i = 0; i < N; i++)
+		{
+			for (j = 0; j < N; j++)
+			{
+				ters_matris.m_array[i][j] = massiv.m_array[i][j + N];
+			}
+		}
+	}
+	else printf("Inverse matrix does not exist.");
+
+	return ters_matris;
+}
+
+MATRIX Matrix::operator+(MATRIX &matrix)
 {
 	return this->add(matrix);
 }
 
-Matrix Matrix::operator-()
+MATRIX Matrix::operator-()
 {
-	unsigned int row = Matrix::m_row;
-	unsigned int col = Matrix::m_col;
+	ROW row = Matrix::m_row;
+	COLUMN column = Matrix::m_column;
 
-	Matrix* minusMatrix = new Matrix(row, col);
+	MATRIX *minusMatrix = new Matrix(row, column);
 	for (int i = 0; i < row; i++)
 	{
-		for (int j = 0; j < col; j++)
+		for (int j = 0; j < column; j++)
 		{
 			minusMatrix->m_array[i][j] = -this->m_array[i][j];
 		}
@@ -136,27 +331,27 @@ Matrix Matrix::operator-()
 	return *minusMatrix;
 }
 
-Matrix Matrix::operator-(Matrix& matrix)
+MATRIX Matrix::operator-(MATRIX &matrix)
 {
-	Matrix minusMatrix = -matrix;
+	MATRIX minusMatrix = -matrix;
 	return this->add(minusMatrix);
 }
 
-Matrix Matrix::operator*(Matrix& matrix)
+MATRIX Matrix::operator*(MATRIX &matrix)
 {
 	return this->multiply(matrix);
 }
 
-Matrix operator* (double c, Matrix& matrix)
+MATRIX operator* (VALUE c, MATRIX &matrix)
 {
-	unsigned int row = matrix.getRow();
-	unsigned int col = matrix.getCol();
+	ROW row = matrix.getRow();
+	COLUMN column = matrix.getColumn();
 
-	Matrix* multipliedMatrix = new Matrix(row, col);
+	MATRIX *multipliedMatrix = new Matrix(row, column);
 
 	for (int i = 0; i < row; i++)
 	{
-		for (int j = 0; j < col; j++)
+		for (int j = 0; j < column; j++)
 		{
 			multipliedMatrix->m_array[i][j] = c * matrix.m_array[i][j];
 		}
@@ -165,16 +360,26 @@ Matrix operator* (double c, Matrix& matrix)
 	return *multipliedMatrix;
 }
 
-Matrix Matrix::convert(VECTOR_DOUBLE& vector)
+MATRIX Matrix::convert(VECTOR_DOUBLE &vector)
 {
-	unsigned int row = vector.size();
-	unsigned int col = 1;
+	ROW row = vector.size();
+	COLUMN column = 1;
 
-	Matrix* convertedMatrix = new Matrix(row, col);
+	MATRIX *convertedMatrix = new Matrix(row, column);
 	for (int i = 0; i < row; i++)
 	{
 		convertedMatrix->m_array[i][0] = vector[i];
 	}
 
 	return *convertedMatrix;
+}
+
+VECTOR_DOUBLE Matrix::convertToVector()
+{
+	VECTOR_DOUBLE vector;
+	for (int i = 0; i < Matrix::getRow(); i++)
+	{
+		vector.push_back(Matrix::m_array[i][0]);
+	}
+	return vector;
 }

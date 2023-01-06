@@ -8,38 +8,45 @@
 class Matrix
 {
 	private:
+		ROW m_row;
+		COLUMN m_column;
 		ARRAY m_array;
-	public:
-		ARRAY getMatrix() { return Matrix::m_array; }
 
-	private:
-		unsigned int m_row, m_col;
 	public:
-		unsigned int getRow() { return Matrix::m_row; }
-		unsigned int getCol() { return Matrix::m_col; }
+		ROW getRow();
+		void setRow(ROW n);
+
+		COLUMN getColumn();
+		void setColumn(COLUMN m);
+
+		ARRAY getArray();
+		void setArray(ARRAY);
 
 	public:
 		Matrix();
-		Matrix(unsigned int, unsigned int);
+		Matrix(ROW, COLUMN);
+		Matrix(VECTOR_DOUBLE);
 		Matrix(ARRAY&);
 
+	public:
 		void show();
-		Matrix add(Matrix&);
-		Matrix multiply(Matrix&);
-		Matrix transpose();
+		MATRIX add(MATRIX&);
+		MATRIX multiply(MATRIX&);
+		MATRIX transpose();
+		VALUE determinant();
+		MATRIX inverse();
 
 	public:
-		Matrix operator+ (Matrix&);
-		Matrix operator- ();
-		Matrix operator- (Matrix&);
-		Matrix operator* (Matrix&);
+		MATRIX operator+ (MATRIX&);
+		MATRIX operator- ();
+		MATRIX operator- (MATRIX&);
+		MATRIX operator* (MATRIX&);
 
-	friend Matrix operator* (double, Matrix&);
+	friend MATRIX operator* (VALUE, MATRIX&);
 	
 	public:
-		Matrix static convert(VECTOR_DOUBLE&);
+		MATRIX static convert(VECTOR_DOUBLE&);
+		VECTOR_DOUBLE convertToVector();
 };
-
-Matrix operator* (double, Matrix&);
 
 #endif
