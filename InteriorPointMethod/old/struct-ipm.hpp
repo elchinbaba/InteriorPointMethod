@@ -2,6 +2,9 @@
 
 #include "typedef.h";
 
+#ifndef STRUCT_IPM_H
+#define STRUCT_IPM_H
+
 struct IPM
 {
 	COEFFICIENTS c;
@@ -11,3 +14,5 @@ struct IPM
 	IPM();
 	IPM(COEFFICIENTS, INEQUALITY_CONSTRAINT_ARRAY, INEQUALITY_CONSTRAINT_VECTOR);
 };
+
+#endif

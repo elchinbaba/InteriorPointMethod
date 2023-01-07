@@ -3,7 +3,8 @@
     {
       "name": "windows-gcc-x86",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python310\\include"
       ],
       "compilerPath": "C:/MinGW/bin/gcc.exe",
       "cStandard": "${default}",

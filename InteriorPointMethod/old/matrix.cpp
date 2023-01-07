@@ -34,7 +34,7 @@ Matrix::Matrix(VECTOR_DOUBLE vector)
 	}
 }
 
-Matrix::Matrix(ARRAY &arr)
+Matrix::Matrix(ARRAY arr)
 {
 	ROW row = arr.size();
 	COLUMN column = arr[0].size();
@@ -118,7 +118,7 @@ MATRIX Matrix::add(Matrix &matrix)
 	return *addedMatrix;
 }
 
-MATRIX Matrix::multiply(Matrix &matrix)
+MATRIX Matrix::multiply(Matrix matrix)
 {
 	if (Matrix::m_column != matrix.getRow())
 	{

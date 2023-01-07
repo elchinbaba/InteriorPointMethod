@@ -31,9 +31,6 @@
     <Filter Include="Header Files\function">
       <UniqueIdentifier>{b12e61c7-c554-42e2-a576-677b4250b2f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\function\log-barrier-function">
-      <UniqueIdentifier>{c64cdb9d-cf81-4114-b465-b72daa6399e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\struct-ipm">
       <UniqueIdentifier>{d57b3572-bbde-420b-bc1f-cd86da33d2cc}</UniqueIdentifier>
     </Filter>
@@ -42,66 +39,28 @@
     <ClCompile Include="InteriorPointMethod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="differential.cpp">
-      <Filter>Header Files\differential</Filter>
-    </ClCompile>
-    <ClCompile Include="matrix.cpp">
-      <Filter>Header Files\matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="function.cpp">
-      <Filter>Header Files\function</Filter>
-    </ClCompile>
-    <ClCompile Include="interior-point-method.cpp">
-      <Filter>Header Files\interior-point-method</Filter>
-    </ClCompile>
-    <ClCompile Include="newton-method.cpp">
-      <Filter>Header Files\interior-point-method\newton-method</Filter>
-    </ClCompile>
-    <ClCompile Include="log-barrier-function.cpp">
-      <Filter>Header Files\function\log-barrier-function</Filter>
-    </ClCompile>
-    <ClCompile Include="struct-ipm.cpp">
-      <Filter>Header Files\struct-ipm</Filter>
-    </ClCompile>
-    <ClCompile Include="setup.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pyutils.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="differential.hpp">
-      <Filter>Header Files\differential</Filter>
-    </ClInclude>
-    <ClInclude Include="matrix.hpp">
-      <Filter>Header Files\matrix</Filter>
-    </ClInclude>
     <ClInclude Include="typedef.h">
       <Filter>Header Files\typedef</Filter>
     </ClInclude>
-    <ClInclude Include="interior-point-method.hpp">
+    <ClInclude Include="interior-point-method-all.hpp">
       <Filter>Header Files\interior-point-method</Filter>
     </ClInclude>
-    <ClInclude Include="function.hpp">
-      <Filter>Header Files\function</Filter>
-    </ClInclude>
-    <ClInclude Include="newton-method.hpp">
+    <ClInclude Include="newton-method-all.hpp">
       <Filter>Header Files\interior-point-method\newton-method</Filter>
     </ClInclude>
-    <ClInclude Include="log-barrier-function.hpp">
-      <Filter>Header Files\function\log-barrier-function</Filter>
-    </ClInclude>
-    <ClInclude Include="struct-ipm.h">
+    <ClInclude Include="struct-ipm-all.hpp">
       <Filter>Header Files\struct-ipm</Filter>
     </ClInclude>
-    <ClInclude Include="pyutils.hpp">
-      <Filter>Resource Files</Filter>
+    <ClInclude Include="function-all.hpp">
+      <Filter>Header Files\function</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="setup.py">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClInclude Include="matrix-all.hpp">
+      <Filter>Header Files\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="differential-all.hpp">
+      <Filter>Header Files\differential</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

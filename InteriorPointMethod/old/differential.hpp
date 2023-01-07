@@ -2,7 +2,7 @@
 
 #include "typedef.h";
 
-#include "function.hpp";
+#include "function-all.hpp";
 
 #ifndef DIFFERENTIAL_H
 #define DIFFERENTIAL_H

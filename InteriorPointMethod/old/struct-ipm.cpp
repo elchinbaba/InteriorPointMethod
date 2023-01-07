@@ -1,4 +1,4 @@
-#include "struct-ipm.h";
+#include "struct-ipm.hpp";
 
 IPM::IPM()
 {

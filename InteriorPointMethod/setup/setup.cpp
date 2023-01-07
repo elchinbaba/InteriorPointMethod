@@ -1,8 +1,6 @@
 #include <Python.h>
-#include "interior-point-method.hpp"
-#include "typedef.h"
-#include "struct-ipm.h"
-#include "pyutils.hpp"
+#include "interior-point-method-all.hpp"
+#include "pyutils-all.hpp"
 
 static PyObject* method_linprog(PyObject* self, PyObject* args) {
     PyObject* py_c, * py_A, * py_b;

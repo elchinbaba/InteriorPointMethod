@@ -1,7 +1,7 @@
 #pragma once
 
 #include "typedef.h";
-#include "struct-ipm.h";
+#include "struct-ipm-all.hpp";
 
 #include "function.hpp";
 

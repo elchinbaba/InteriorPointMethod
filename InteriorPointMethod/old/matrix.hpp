@@ -14,10 +14,10 @@ class Matrix
 
 	public:
 		ROW getRow();
-		void setRow(ROW n);
+		void setRow(ROW);
 
 		COLUMN getColumn();
-		void setColumn(COLUMN m);
+		void setColumn(COLUMN);
 
 		ARRAY getArray();
 		void setArray(ARRAY);
@@ -26,12 +26,12 @@ class Matrix
 		Matrix();
 		Matrix(ROW, COLUMN);
 		Matrix(VECTOR_DOUBLE);
-		Matrix(ARRAY&);
+		Matrix(ARRAY);
 
 	public:
 		void show();
 		MATRIX add(MATRIX&);
-		MATRIX multiply(MATRIX&);
+		MATRIX multiply(MATRIX);
 		MATRIX transpose();
 		VALUE determinant();
 		MATRIX inverse();

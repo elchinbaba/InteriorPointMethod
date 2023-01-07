@@ -1,0 +1,28 @@
+#pragma once
+
+#include "typedef.h";
+
+#ifndef STRUCT_IPM_ALL_H
+#define STRUCT_IPM_ALL_H
+
+struct IPM
+{
+	COEFFICIENTS c;
+	INEQUALITY_CONSTRAINT_ARRAY A;
+	INEQUALITY_CONSTRAINT_VECTOR b;
+
+	IPM()
+	{
+		this->c = COEFFICIENTS();
+		this->A = INEQUALITY_CONSTRAINT_ARRAY();
+		this->b = INEQUALITY_CONSTRAINT_VECTOR();
+	}
+	IPM(COEFFICIENTS c, INEQUALITY_CONSTRAINT_ARRAY A, INEQUALITY_CONSTRAINT_VECTOR b)
+	{
+		this->c = c;
+		this->A = A;
+		this->b = b;
+	}
+};
+
+#endif

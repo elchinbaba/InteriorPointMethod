@@ -66,7 +66,7 @@ void NewtonMethod::setGradient(MATRIX gradient)
 	NewtonMethod::m_gradient = gradient;
 }
 
-MATRIX NewtonMethod::iterate(IPM ipm, POINT x)
+MATRIX NewtonMethod::iterate(POINT x)
 {
 	this->setHessian(evaluateHessian(this->getHessian(), function, x));
 	this->setGradient(evaluateGradient(this->getGradient(), function, x));

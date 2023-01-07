@@ -1,7 +1,5 @@
 #pragma once
 
-#include "interior-point-method.hpp";
-
 #include "function.hpp";
 
 #ifndef NEWTON_METHOD_H
@@ -26,7 +24,7 @@ class NewtonMethod
 		NewtonMethod(Function*, ARRAY_SIZE);
 
 	public:
-		MATRIX iterate(IPM, POINT);
+		MATRIX iterate(POINT);
 };
 
 #endif // !NEWTON_METHOD_H

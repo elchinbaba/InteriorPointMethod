@@ -148,30 +148,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="differential.cpp" />
-    <ClCompile Include="function.cpp" />
-    <ClCompile Include="interior-point-method.cpp" />
     <ClCompile Include="InteriorPointMethod.cpp" />
-    <ClCompile Include="log-barrier-function.cpp" />
-    <ClCompile Include="matrix.cpp" />
-    <ClCompile Include="newton-method.cpp" />
-    <ClCompile Include="pyutils.cpp" />
-    <ClCompile Include="setup.cpp" />
-    <ClCompile Include="struct-ipm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="differential.hpp" />
-    <ClInclude Include="function.hpp" />
-    <ClInclude Include="interior-point-method.hpp" />
-    <ClInclude Include="log-barrier-function.hpp" />
-    <ClInclude Include="matrix.hpp" />
-    <ClInclude Include="newton-method.hpp" />
-    <ClInclude Include="pyutils.hpp" />
-    <ClInclude Include="struct-ipm.h" />
+    <ClInclude Include="differential-all.hpp" />
+    <ClInclude Include="function-all.hpp" />
+    <ClInclude Include="interior-point-method-all.hpp" />
+    <ClInclude Include="matrix-all.hpp" />
+    <ClInclude Include="newton-method-all.hpp" />
+    <ClInclude Include="struct-ipm-all.hpp" />
     <ClInclude Include="typedef.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="setup.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

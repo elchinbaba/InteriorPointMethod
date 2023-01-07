@@ -2,11 +2,7 @@
 //
 
 #include <iostream>
-#include <functional>
-#include "matrix.hpp";
-#include "differential.hpp";
-#include "function.hpp";
-#include "interior-point-method.hpp";
+#include "interior-point-method-all.hpp"
 
 void checkMatrices()
 {
@@ -57,7 +53,7 @@ void checkDerivatives()
 
 void checkFunctions()
 {
-    std::cout << linearFunction({ 1, 2, 3 }, { 1, 5, 4});
+    //std::cout << linearFunction({ 1, 2, 3 }, { 1, 5, 4});
 }
 
 void checkBarrier()

@@ -1,7 +1,5 @@
 #include "log-barrier-function.hpp";
 
-#include "typedef.h"
-
 LogBarrierFunction::LogBarrierFunction(IPM ipm, OMEGA omega)
 {
 	LogBarrierFunction::ipm = ipm;
