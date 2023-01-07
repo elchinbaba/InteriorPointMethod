@@ -4,14 +4,7 @@
 
 #include "function.hpp";
 
-#include <iostream>;
-
 #include <algorithm>
-
-bool comp(int a, int b)
-{
-	return (a < b);
-}
 
 InteriorPointMethod::InteriorPointMethod(IPM ipm)
 {
@@ -38,7 +31,8 @@ POINT InteriorPointMethod::calculate()
 		catch (std::exception e)
 		{
 			//std::cout << e.what() << std::endl;
-			return m_x;
+			break;
 		}
 	}
+	return m_x;
 }

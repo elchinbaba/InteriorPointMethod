@@ -63,6 +63,12 @@
     <ClCompile Include="struct-ipm.cpp">
       <Filter>Header Files\struct-ipm</Filter>
     </ClCompile>
+    <ClCompile Include="setup.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pyutils.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="differential.hpp">
@@ -89,5 +95,13 @@
     <ClInclude Include="struct-ipm.h">
       <Filter>Header Files\struct-ipm</Filter>
     </ClInclude>
+    <ClInclude Include="pyutils.hpp">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="setup.py">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
