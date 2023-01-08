@@ -243,73 +243,72 @@ class Matrix
 			int i, j;
 			double D = Matrix::determinant();
 			MATRIX ters_matris = Matrix(N, N);
-			if (D != 0)
-			{
-				for (i = 0; i < N; i++)
-				{
-					for (j = 0; j < N; j++)
-					{
-						massiv.m_array[i][j] = Matrix::m_array[i][j];
-					}
-					for (j = N; j < 2 * N; j++)
-					{
-						if (j - N == i) massiv.m_array[i][j] = 1;
-						else massiv.m_array[i][j] = 0;
-					}
-				}
 
-				int k, t;
-				double a_ii, a_ki;
-				for (i = 0; i < N; i++)
+			if (D == 0) throw "Inverse matrix does not exist!";
+
+			for (i = 0; i < N; i++)
+			{
+				for (j = 0; j < N; j++)
 				{
-					if (massiv.m_array[i][i] != 0)
-					{
-						a_ii = massiv.m_array[i][i];
-						for (j = 0; j < 2 * N; j++)
-						{
-							massiv.m_array[i][j] /= a_ii;
-						}
-						for (k = 0; k < N; k++)
-						{
-							if (k != i)
-							{
-								a_ki = -massiv.m_array[k][i];
-								for (j = 0; j < 2 * N; j++)
-								{
-									massiv.m_array[k][j] += massiv.m_array[i][j] * a_ki;
-								}
-							}
-						}
-					}
-					else
-					{
-						for (t = i + 1; t < N; t++)
-						{
-							if (massiv.m_array[i][t] != 0)
-							{
-								break;
-							}
-						}
-						VECTOR_DOUBLE c;
-						c.resize(2 * N);
-						for (j = 0; j < 2 * N; j++)
-						{
-							c[j] = massiv.m_array[j][i];
-							massiv.m_array[j][i] = massiv.m_array[j][t];
-							massiv.m_array[j][t] = c[j];
-						}
-						i = i - 1;
-					}
+					massiv.m_array[i][j] = Matrix::m_array[i][j];
 				}
-				for (i = 0; i < N; i++)
+				for (j = N; j < 2 * N; j++)
 				{
-					for (j = 0; j < N; j++)
-					{
-						ters_matris.m_array[i][j] = massiv.m_array[i][j + N];
-					}
+					if (j - N == i) massiv.m_array[i][j] = 1;
+					else massiv.m_array[i][j] = 0;
 				}
 			}
-			else printf("Inverse matrix does not exist.");
+
+			int k, t;
+			double a_ii, a_ki;
+			for (i = 0; i < N; i++)
+			{
+				if (massiv.m_array[i][i] != 0)
+				{
+					a_ii = massiv.m_array[i][i];
+					for (j = 0; j < 2 * N; j++)
+					{
+						massiv.m_array[i][j] /= a_ii;
+					}
+					for (k = 0; k < N; k++)
+					{
+						if (k != i)
+						{
+							a_ki = -massiv.m_array[k][i];
+							for (j = 0; j < 2 * N; j++)
+							{
+								massiv.m_array[k][j] += massiv.m_array[i][j] * a_ki;
+							}
+						}
+					}
+				}
+				else
+				{
+					for (t = i + 1; t < N; t++)
+					{
+						if (massiv.m_array[i][t] != 0)
+						{
+							break;
+						}
+					}
+					VECTOR_DOUBLE c;
+					c.resize(2 * N);
+					for (j = 0; j < 2 * N; j++)
+					{
+						c[j] = massiv.m_array[j][i];
+						massiv.m_array[j][i] = massiv.m_array[j][t];
+						massiv.m_array[j][t] = c[j];
+					}
+					i = i - 1;
+				}
+			}
+			for (i = 0; i < N; i++)
+			{
+				for (j = 0; j < N; j++)
+				{
+					ters_matris.m_array[i][j] = massiv.m_array[i][j + N];
+				}
+			}
 
 			return ters_matris;
 		}
