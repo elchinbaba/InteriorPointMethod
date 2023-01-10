@@ -243,7 +243,7 @@ class Matrix
 			int i, j;
 			double D = Matrix::determinant();
 
-			if (D == 0) throw "Inverse matrix does not exist!";
+			if (D == 0) throw std::exception("Inverse matrix does not exist!");
 
 			for (i = 0; i < N; i++)
 			{
@@ -291,9 +291,9 @@ class Matrix
 							break;
 						}
 					}
-					if (t == N) throw "Inverse matrix does not exist.";
+					if (t == N) throw std::exception("Inverse matrix does not exist!");
 					VECTOR_DOUBLE c;
-					c.resize(2 * N);
+					c.resize(N);
 					for (j = 0; j < N; j++)
 					{
 						try
@@ -304,7 +304,7 @@ class Matrix
 						}
 						catch (std::exception ex)
 						{
-							throw "Inverse matrix not found.";
+							throw std::exception("Inverse matrix not found.");
 						}
 					}
 					i = i - 1;

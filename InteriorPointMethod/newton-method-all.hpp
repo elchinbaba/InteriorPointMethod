@@ -88,7 +88,7 @@ class NewtonMethod
 			}
 			catch (std::exception ex)
 			{
-				throw ex.what();
+				throw ex;
 			}
 			
 			MATRIX subtract = inverse_hessian * m_gradient;
