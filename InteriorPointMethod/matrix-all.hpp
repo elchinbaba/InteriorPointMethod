@@ -242,7 +242,6 @@ class Matrix
 			MATRIX massiv = Matrix(N, 2 * N);
 			int i, j;
 			double D = Matrix::determinant();
-			MATRIX ters_matris = Matrix(N, N);
 
 			if (D == 0) throw "Inverse matrix does not exist!";
 
@@ -259,6 +258,7 @@ class Matrix
 				}
 			}
 
+			MATRIX ters_matris = Matrix(N, N);
 			int k, t;
 			double a_ii, a_ki;
 			for (i = 0; i < N; i++)
@@ -291,13 +291,21 @@ class Matrix
 							break;
 						}
 					}
+					if (t == N) throw "Inverse matrix does not exist.";
 					VECTOR_DOUBLE c;
 					c.resize(2 * N);
-					for (j = 0; j < 2 * N; j++)
+					for (j = 0; j < N; j++)
 					{
-						c[j] = massiv.m_array[j][i];
-						massiv.m_array[j][i] = massiv.m_array[j][t];
-						massiv.m_array[j][t] = c[j];
+						try
+						{
+							c[j] = massiv.m_array[j][i];
+							massiv.m_array[j][i] = massiv.m_array[j][t];
+							massiv.m_array[j][t] = c[j];
+						}
+						catch (std::exception ex)
+						{
+							throw "Inverse matrix not found.";
+						}
 					}
 					i = i - 1;
 				}

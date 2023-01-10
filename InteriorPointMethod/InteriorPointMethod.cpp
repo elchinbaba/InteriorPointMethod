@@ -101,15 +101,15 @@ void checkInverse()
 
 void checkNewton()
 {
-    COEFFICIENTS c = { 1, 1, 1 };
+    COEFFICIENTS c = { 0.03301505577521735, 1.191915005849452, 6.457043583205619 };
     INEQUALITY_CONSTRAINT_ARRAY A = {
-        {1, 2, 0},
-        {0, 1, 0},
-        {0, 0, 1},
-        {1, 1, 2},
-        {1, 0, 0}
+        { 4.022512296449227, 0.46958524537878965, 4.588091215729607 },
+        { 1.3300010522845385, 1.2929888293938274, 0.45954514280831416 },
+        { 1, 0, 0 },
+        { 0, 1, 0 },
+        { 0, 0, 1 }
     };
-    INEQUALITY_CONSTRAINT_VECTOR b = { 2, 3, 1, 10, 0 };
+    INEQUALITY_CONSTRAINT_VECTOR b = { 1.7449665233685772, 0.14378970192501705, 0, 0, 0 };
 
     Matrix(InteriorPointMethod(IPM(c, A, b)).calculate()).show();
 }
