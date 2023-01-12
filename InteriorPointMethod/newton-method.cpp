@@ -71,7 +71,17 @@ MATRIX NewtonMethod::iterate(IPM ipm, POINT x)
 	this->setHessian(evaluateHessian(this->getHessian(), function, x));
 	this->setGradient(evaluateGradient(this->getGradient(), function, x));
 
-	MATRIX subtract = m_Hessian.inverse() * m_gradient;
+	MATRIX inverse_hessian;
+	try
+	{
+		inverse_hessian = m_Hessian.inverse();
+	}
+	catch (std::exception ex)
+	{
+		throw ex;
+	}
+
+	MATRIX subtract = inverse_hessian * m_gradient;
 	VALUE checkNaN = subtract.getArray()[0][0];
 	if (checkNaN != checkNaN)
 	{
