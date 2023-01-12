@@ -237,74 +237,81 @@ MATRIX Matrix::inverse()
 	MATRIX massiv = Matrix(N, 2 * N);
 	int i, j;
 	double D = Matrix::determinant();
-	MATRIX ters_matris = Matrix(N, N);
-	if (D != 0)
+
+	if (D == 0) throw std::exception("Inverse matrix does not exist!");
+
+	for (i = 0; i < N; i++)
 	{
-		for (i = 0; i < N; i++)
+		for (j = 0; j < N; j++)
 		{
-			for (j = 0; j < N; j++)
+			massiv.m_array[i][j] = Matrix::m_array[i][j];
+		}
+		for (j = N; j < 2 * N; j++)
+		{
+			if (j - N == i) massiv.m_array[i][j] = 1;
+			else massiv.m_array[i][j] = 0;
+		}
+	}
+
+	MATRIX ters_matris = Matrix(N, N);
+	int k, t;
+	double a_ii, a_ki;
+	for (i = 0; i < N; i++)
+	{
+		if (massiv.m_array[i][i] != 0)
+		{
+			a_ii = massiv.m_array[i][i];
+			for (j = 0; j < 2 * N; j++)
 			{
-				massiv.m_array[i][j] = Matrix::m_array[i][j];
+				massiv.m_array[i][j] /= a_ii;
 			}
-			for (j = N; j < 2 * N; j++)
+			for (k = 0; k < N; k++)
 			{
-				if (j - N == i) massiv.m_array[i][j] = 1;
-				else massiv.m_array[i][j] = 0;
+				if (k != i)
+				{
+					a_ki = -massiv.m_array[k][i];
+					for (j = 0; j < 2 * N; j++)
+					{
+						massiv.m_array[k][j] += massiv.m_array[i][j] * a_ki;
+					}
+				}
 			}
 		}
-
-		int k, t;
-		double a_ii, a_ki;
-		for (i = 0; i < N; i++)
+		else
 		{
-			if (massiv.m_array[i][i] != 0)
+			for (t = i + 1; t < N; t++)
 			{
-				a_ii = massiv.m_array[i][i];
-				for (j = 0; j < 2 * N; j++)
+				if (massiv.m_array[i][t] != 0)
 				{
-					massiv.m_array[i][j] /= a_ii;
-				}
-				for (k = 0; k < N; k++)
-				{
-					if (k != i)
-					{
-						a_ki = -massiv.m_array[k][i];
-						for (j = 0; j < 2 * N; j++)
-						{
-							massiv.m_array[k][j] += massiv.m_array[i][j] * a_ki;
-						}
-					}
+					break;
 				}
 			}
-			else
+			if (t == N) throw std::exception("Inverse matrix does not exist!");
+			VECTOR_DOUBLE c;
+			c.resize(N);
+			for (j = 0; j < N; j++)
 			{
-				for (t = i + 1; t < N; t++)
-				{
-					if (massiv.m_array[i][t] != 0)
-					{
-						break;
-					}
-				}
-				VECTOR_DOUBLE c;
-				c.resize(2 * N);
-				for (j = 0; j < 2 * N; j++)
+				try
 				{
 					c[j] = massiv.m_array[j][i];
 					massiv.m_array[j][i] = massiv.m_array[j][t];
 					massiv.m_array[j][t] = c[j];
 				}
-				i = i - 1;
+				catch (std::exception ex)
+				{
+					throw std::exception("Inverse matrix not found.");
+				}
 			}
-		}
-		for (i = 0; i < N; i++)
-		{
-			for (j = 0; j < N; j++)
-			{
-				ters_matris.m_array[i][j] = massiv.m_array[i][j + N];
-			}
+			i = i - 1;
 		}
 	}
-	else printf("Inverse matrix does not exist.");
+	for (i = 0; i < N; i++)
+	{
+		for (j = 0; j < N; j++)
+		{
+			ters_matris.m_array[i][j] = massiv.m_array[i][j + N];
+		}
+	}
 
 	return ters_matris;
 }
