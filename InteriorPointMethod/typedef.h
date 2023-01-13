@@ -6,7 +6,7 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
-typedef double VALUE;
+typedef long double VALUE;
 
 typedef unsigned int UNSIGNED_INT;
 typedef UNSIGNED_INT ARRAY_SIZE;

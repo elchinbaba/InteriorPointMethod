@@ -5,7 +5,7 @@
 #ifndef DIFFERENTIAL_H
 #define DIFFERENTIAL_H
 
-#define EPS 0.01
+#define EPS 0.2
 
 VALUE derivative(Function* function, POINT x, PARTIALS partials)
 {

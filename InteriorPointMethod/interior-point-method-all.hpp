@@ -22,7 +22,7 @@ class InteriorPointMethod
 			InteriorPointMethod::m_omega = 0.000005;
 			for (int i = 0; i < ipm.c.size(); i++)
 			{
-				InteriorPointMethod::m_x.push_back(*std::max_element(std::begin(ipm.b), std::end(ipm.b)));
+				InteriorPointMethod::m_x.push_back(*std::max_element(std::begin(ipm.b), std::end(ipm.b))/17);
 			}
 		}
 		POINT calculate()
@@ -30,16 +30,17 @@ class InteriorPointMethod
 			LogBarrierFunction* lbf = new LogBarrierFunction(ipm, m_omega);
 			NewtonMethod nm = NewtonMethod(lbf, ipm.c.size());
 
-			for (int i = 1; i < 250; i++)
+			for (int i = 1; i < 1000; i++)
 			{
-				lbf->omega = (1 + 0.25) * lbf->omega;
+				lbf->omega = (1 + 0.1) * lbf->omega;
 				try
 				{
+					Matrix(m_x).show();
 					m_x = nm.iterate(m_x).convertToVector();
 				}
 				catch (std::exception e)
 				{
-					//std::cout << e.what() << std::endl;
+					std::cout << e.what() << std::endl;
 					break;
 				}
 			}
