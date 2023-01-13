@@ -30,7 +30,8 @@ POINT InteriorPointMethod::calculate()
 		}
 		catch (std::exception e)
 		{
-			//std::cout << e.what() << std::endl;
+			printf(e.what());
+			printf("\n");
 			break;
 		}
 	}

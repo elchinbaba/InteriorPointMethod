@@ -171,7 +171,7 @@ VALUE Matrix::determinant()
 	int i, j;
 	int r = 0, n = 0;
 	int k;
-	double a_ii, a_ki;
+	VALUE a_ii, a_ki;
 	for (int i = 0; i < N - 1; i++)
 	{
 		if (massiv.m_array[i][i] != 0)
@@ -217,7 +217,7 @@ VALUE Matrix::determinant()
 			}
 		}
 	}
-	double D;
+	VALUE D;
 	switch (r)
 	{
 		case 0:
@@ -236,7 +236,7 @@ MATRIX Matrix::inverse()
 	ARRAY_SIZE N = Matrix::m_row;
 	MATRIX massiv = Matrix(N, 2 * N);
 	int i, j;
-	double D = Matrix::determinant();
+	VALUE D = Matrix::determinant();
 
 	if (D == 0) throw std::exception("Inverse matrix does not exist!");
 
@@ -255,7 +255,7 @@ MATRIX Matrix::inverse()
 
 	MATRIX ters_matris = Matrix(N, N);
 	int k, t;
-	double a_ii, a_ki;
+	VALUE a_ii, a_ki;
 	for (i = 0; i < N; i++)
 	{
 		if (massiv.m_array[i][i] != 0)
