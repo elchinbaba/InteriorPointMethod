@@ -5,98 +5,77 @@
 #ifndef NEWTON_METHOD_ALL_H
 #define NEWTON_METHOD_ALL_H
 
-static MATRIX evaluateHessian(MATRIX hessian, Function* function, POINT point)
-{
-	ROW row = hessian.getRow();
-	COLUMN column = hessian.getColumn();
-	ARRAY arr = hessian.getArray();
-
-	for (ARRAY_SIZE i = 0; i < row; i++)
-	{
-		for (ARRAY_SIZE j = 0; j < column; j++)
-		{
-			arr[i][j] = derivative(function, point, { i + 1, j + 1 });
-		}
-	}
-
-	return Matrix(arr);
-}
-
-static MATRIX evaluateGradient(MATRIX gradient, Function* function, POINT point)
-{
-	ROW row = gradient.getRow();
-	ARRAY arr = gradient.getArray();
-
-	for (ARRAY_SIZE i = 0; i < row; i++)
-	{
-		arr[i][0] = derivative(function, point, { i + 1 });
-	}
-
-	return Matrix(arr);
-}
-
 class NewtonMethod
 {
 	public:
 		Function* function;
-	private:
-		MATRIX m_Hessian;
-		MATRIX m_gradient;
+	public:
+		MATRIX* hessian;
+		MATRIX* gradient;
 
 	public:
-		MATRIX getHessian()
+		void setHessian(MATRIX* hessian)
 		{
-			return NewtonMethod::m_Hessian;
+			NewtonMethod::hessian = hessian;
 		}
-		void setHessian(MATRIX hessian)
+		void setGradient(MATRIX* gradient)
 		{
-			NewtonMethod::m_Hessian = hessian;
-		}
-		MATRIX getGradient()
-		{
-			return NewtonMethod::m_gradient;
-		}
-		void setGradient(MATRIX gradient)
-		{
-			NewtonMethod::m_gradient = gradient;
+			NewtonMethod::gradient = gradient;
 		}
 
 	public:
 		NewtonMethod()
 		{
 			NewtonMethod::function = NULL;
-			NewtonMethod::m_Hessian = Matrix();
-			NewtonMethod::m_gradient = Matrix();
+			NewtonMethod::hessian = new Matrix();
+			NewtonMethod::gradient = new Matrix();
 		}
 		NewtonMethod(Function* function, ARRAY_SIZE n)
 		{
 			NewtonMethod::function = function;
-			NewtonMethod::m_gradient = Matrix(n, 1);
-			NewtonMethod::m_Hessian = Matrix(n, n);
+			NewtonMethod::gradient = new Matrix(n, 1);
+			NewtonMethod::hessian = new Matrix(n, n);
 		}
 
 	public:
+		void evaluateHessian(Function* &function, POINT &point)
+		{
+			for (ARRAY_SIZE i = 0; i < hessian->row; i++)
+			{
+				for (ARRAY_SIZE j = 0; j < hessian->column; j++)
+				{
+					hessian->arr[i][j] = derivative(function, point, { i + 1, j + 1 });
+				}
+			}
+		}
+		void evaluateGradient(Function* &function, POINT &point)
+		{
+			for (ARRAY_SIZE i = 0; i < gradient->row; i++)
+			{
+				gradient->arr[i][0] = derivative(function, point, { i + 1 });
+			}
+		}
 		MATRIX iterate(POINT x)
 		{
-			this->setHessian(evaluateHessian(this->getHessian(), function, x));
-			this->setGradient(evaluateGradient(this->getGradient(), function, x));
+			evaluateHessian(function, x);
+			evaluateGradient(function, x);
 
-			MATRIX inverse_hessian;
+			MATRIX subtract;
 			try
 			{
-				inverse_hessian = m_Hessian.inverse();
+				subtract = *(hessian->inverse()) * *gradient;
 			}
 			catch (std::exception ex)
 			{
 				throw ex;
 			}
 			
-			MATRIX subtract = inverse_hessian * m_gradient;
-			VALUE checkNaN = subtract.getArray()[0][0];
+			VALUE checkNaN = subtract.arr[0][0];
 			if (checkNaN != checkNaN)
 			{
 				throw std::exception("NaN found");
 			}
+
 			return Matrix(x) - subtract;
 		}
 };

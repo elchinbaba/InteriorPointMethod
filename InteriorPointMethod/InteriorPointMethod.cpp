@@ -4,108 +4,16 @@
 #include <iostream>
 #include "interior-point-method-all.hpp"
 
-void checkMatrices()
+POINT checkNewton()
 {
-    ARRAY array1, array2;
-
-    array1 = {
-        { 1, 2, 3 },
-        { 4, 5, 6 },
-        { 7, 8, 9 }
-    };
-
-    array2 = {
-        { 4, 3, 2 },
-        { 2, 4, 5 }
-    };
-
-    Matrix matrix1 = Matrix(array1);
-    Matrix matrix2 = Matrix(array2);
-    Matrix matrix3 = 2.5 * matrix2;
-    matrix3 = matrix3.transpose();
-
-    try
-    {
-        Matrix matrix4 = matrix1 * matrix3;
-        matrix4.show();
-    }
-    catch (std::exception e)
-    {
-        std::cout << e.what();
-    }
-}
-
-double sumFUNC(POINT point)
-{
-    return point[0]*point[0] * point[1] * point[2];
-}
-
-void checkDerivatives()
-{
-    std::function<double (POINT)> sumFunc;
-    sumFunc = [](POINT point) { return point[0] * point[0] * point[1] * point[2]; };
-
-    POINT point = { 1, 2, 3 };
-    PARTIALS partials = { 1, 2 };
-
-    //std::cout << derivative(sumFunc, point, partials);
-}
-
-void checkFunctions()
-{
-    //std::cout << linearFunction({ 1, 2, 3 }, { 1, 5, 4});
-}
-
-void checkBarrier()
-{
-    ARRAY A, b;
-
-    A = {
-        { 1, 2, 3 },
-        { 4, 5, 6 },
-        { 7, 8, 9 }
-    };
-
-    b = {
-        {-0.5},
-        {-2},
-        {-3}
-    };
-
-    //InteriorPointMethod* ipm = new InteriorPointMethod({ 1, 2, 3 }, Matrix(A), Matrix(b));
-
-    //std::cout << ipm->logBarrier();
-}
-
-void checkDeterminant()
-{
-    ARRAY arr = {
-        { 1, 2, 5 },
-        { 1, 3, 2 },
-        { 8, 4, 5 }
-    };
-
-    std::cout << Matrix(arr).determinant();
-}
-
-void checkInverse()
-{
-    ARRAY arr = {
-           { 1, 2, 5 },
-           { 1, 3, 2 },
-           { 8, 4, 5 }
-    };
-
-    Matrix(arr).inverse().show();
-}
-
-void checkNewton()
-{
-    COEFFICIENTS c = { 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.5, 0.5 };
+    COEFFICIENTS c = { 0.015, 0.015, 0.015, 0.015, 0.015, 0.015, 0.015, 0.015, 0.015 };
     INEQUALITY_CONSTRAINT_ARRAY A = {
         { 0, 0.33, 0.67, 1, 1, 0.5, 0, 1, -1 },
+        { 0, -0.33, -0.67, -1, -1, -0.5, 0, -1, 1 },
         { 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+        { -1, -1, -1, -1, -1, -1, -1, 0, 0 },
         { 1.5, 1.83, 2.17, 2.5, 3, 3.5, 4, 0, 0 },
+        { -1.5, -1.83, -2.17, -2.5, -3, -3.5, -4, 0, 0 },
         { 1, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 1, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 1, 0, 0, 0, 0, 0, 0 },
@@ -116,14 +24,26 @@ void checkNewton()
         { 0, 0, 0, 0, 0, 0, 0, 1, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 1 }
     };
-    INEQUALITY_CONSTRAINT_VECTOR b = { 25, 50, 130, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    INEQUALITY_CONSTRAINT_VECTOR b = { 0.5, -0.5, 1, -1, 2.6, -2.6, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-    Matrix(InteriorPointMethod(IPM(c, A, b)).calculate()).show();
+    /*COEFFICIENTS c = { 1, 2, 3 };
+    INEQUALITY_CONSTRAINT_ARRAY A = {
+        { 2, 3, 4 },
+        {-2,-3,-4 },
+        { 1, 0, 0 },
+        { 0, 1, 0 },
+        { 0, 0, 1 }
+    };
+    INEQUALITY_CONSTRAINT_VECTOR b = { 1, -1, 0, 0, 0 };*/
+
+    return InteriorPointMethod(IPM(c, A, b)).calculate();
 }
 
 int main()
 {
-    checkNewton();
+    Matrix(checkNewton()).show();
+
+    std::cout << "Stop program";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

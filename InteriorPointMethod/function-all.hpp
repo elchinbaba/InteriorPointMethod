@@ -25,13 +25,17 @@ class LogBarrierFunction : public Function
 			LogBarrierFunction::ipm = ipm;
 			LogBarrierFunction::omega = omega;
 		}
+		VALUE getValue(VECTOR_DOUBLE &a, POINT &x)
+		{
+			return Matrix(a).transpose()->multiply(Matrix(x)).arr[0][0];
+		}
 		VALUE call(POINT x)
 		{
 			VALUE sum = 0, value = -99999, old_value;
 			for (int i = 0; i < ipm.A.size(); i++)
 			{
 				old_value = value;
-				value = Matrix(ipm.A[i]).transpose().multiply(Matrix(x)).getArray()[0][0] - ipm.b[i];
+				value = getValue(ipm.A[i], x) - ipm.b[i];
 				if (value == -old_value && value < 0)
 				{
 					sum -= log(-value);
@@ -41,7 +45,7 @@ class LogBarrierFunction : public Function
 					sum -= log(value);
 				}
 			}
-			return omega * Matrix::convert(ipm.c).transpose().multiply(Matrix::convert(x)).getArray()[0][0] + sum;
+			return omega * getValue(ipm.c, x) + sum;
 		}
 };
 
