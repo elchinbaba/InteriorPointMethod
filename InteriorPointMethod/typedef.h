@@ -26,5 +26,6 @@ typedef VECTOR_DOUBLE INEQUALITY_CONSTRAINT_VECTOR;
 
 typedef class Matrix MATRIX;
 typedef VALUE OMEGA;
+typedef VALUE Q;
 
 #endif
