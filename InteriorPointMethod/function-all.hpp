@@ -40,11 +40,16 @@ class LogBarrierFunction : public Function
 				{
 					sum -= log(-value);
 				}
+				else if (value == 0 || (value + 0.2 > 0 && value < 0))
+				{
+					continue;
+				}
 				else
 				{
 					sum -= log(value);
 				}
 			}
+
 			return omega * getValue(ipm.c, x) + sum;
 		}
 };

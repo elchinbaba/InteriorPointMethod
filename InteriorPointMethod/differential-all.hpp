@@ -5,7 +5,7 @@
 #ifndef DIFFERENTIAL_H
 #define DIFFERENTIAL_H
 
-#define EPS 0.01
+#define EPS 0.1
 
 VALUE derivative(Function* &function, POINT &x, PARTIALS partials)
 {
@@ -58,7 +58,7 @@ VALUE derivative2(Function*& function, POINT& x, PARTIALS partials)
 			forward.push_back(x[i]);
 		}
 	}
-	return (derivative2(function, forward, partials) - function->call(x)) / EPS;
+	return (derivative2(function, forward, partials) - derivative2(function, x, partials)) / EPS;
 }
 
 #endif

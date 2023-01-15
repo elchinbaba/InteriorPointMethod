@@ -42,39 +42,105 @@ class InteriorPointMethod
 		}
 		void initializeQ()
 		{
-			InteriorPointMethod::m_q = 1 / sqrt(ipm.b.size());
+			InteriorPointMethod::m_q = 1 / (sqrt(ipm.b.size()));
 		}
-		void initializeX()
+		void initializeX(VALUE t)
 		{
-			for (int i = 0; i < ipm.c.size(); i++)
+			for (int i = 0; i < ipm.c.size() - 1; i++)
 			{
-				InteriorPointMethod::m_x.push_back(*std::max_element(std::begin(ipm.b), std::end(ipm.b))/2);
+				InteriorPointMethod::m_x.push_back(0);
 			}
+			InteriorPointMethod::m_x.push_back(t);
 		}
-		InteriorPointMethod(IPM ipm)
+		void initializeX(POINT a)
 		{
-			this->ipm = ipm;
-			initializeOmega();
-			initializeQ();
-			initializeX();
+			InteriorPointMethod::m_x = a;
+		}
+		POINT initialize(IPM ipm, VALUE v)
+		{
+			IPM ipm_for_init = IPM(ipm.c, ipm.A, ipm.b);
+
+			for (int i = 0; i < ipm_for_init.c.size(); i++)
+			{
+				ipm_for_init.c[i] = 0;
+			}
+			ipm_for_init.c.push_back(1);
+
+			for (int i = 0; i < ipm_for_init.A.size(); i++)
+			{
+				ipm_for_init.A[i].push_back(v);
+			}
+			VECTOR_DOUBLE a;
+			for (int i = 0; i < ipm_for_init.c.size(); i++)
+			{
+				a.push_back(0);
+			}
+			a[a.size() - 1] = 1;
+			ipm_for_init.A.push_back(a);
+			a[a.size() - 1] = -1;
+			ipm_for_init.A.push_back(a);
+
+			ipm_for_init.b.push_back(-exp(10));
+			ipm_for_init.b.push_back(-exp(10));
+			POINT x = InteriorPointMethod(ipm_for_init, true).calculate();
+			POINT x_for_init;
+			for (int i = 0; i < x.size() - 1; i++)
+			{
+				x_for_init.push_back(x[i]);
+			}
+			return x_for_init;
+		}
+		InteriorPointMethod(IPM ipm, bool doesStart)
+		{
+			VALUE t = 0;
+			for (int i = 0; i < ipm.b.size(); i++)
+			{
+				t += abs(ipm.b[i]);
+			}
+			t += 1.1;
+
+			if (doesStart)
+			{
+				this->ipm = ipm;
+				initializeOmega();
+				initializeQ();
+				initializeX(t);
+			}
+			else
+			{
+				this->ipm = ipm;
+				initializeOmega();
+				initializeQ();
+				initializeX(initialize(ipm, t));
+			}
 		}
 		POINT calculate()
 		{
 			LogBarrierFunction* lbf = new LogBarrierFunction(ipm, m_omega);
 			NewtonMethod* nm = new NewtonMethod(lbf, ipm.c.size());
+			nm->ipm = ipm;
 
 			for (int i = 1; i < 1000; i++)
 			{
-				lbf->omega = (1 + m_q) * lbf->omega;
 				try
 				{
 					m_x = Matrix::convertToVector(nm->iterate(m_x));
 				}
 				catch (std::exception e)
 				{
-					std::cout << e.what() << " at iteration " << i << " \n";
+					//std::cout << e.what() << " at iteration " << i << " \n";
+					VALUE sum1 = 0, sum2 = 0, sum3 = 0;
+					for (int i = 0; i < m_x.size() - 2; i++)
+					{
+						sum1 += ipm.A[0][i] * m_x[i];
+						sum2 += ipm.A[2][i] * m_x[i];
+						sum3 += ipm.A[4][i] * m_x[i];
+					}
+					//std::cout << sum1 << " " << sum2 << " " << sum3 << "\n";
 					break;
 				}
+				lbf->omega = (1 + m_q) * lbf->omega;
+				nm->omega = lbf->omega;
 			}
 			return m_x;
 		}

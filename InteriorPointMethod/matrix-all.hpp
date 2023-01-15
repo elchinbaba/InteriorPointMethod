@@ -51,6 +51,20 @@ class Matrix
 				Matrix::arr[i].resize(column);
 			}
 		}
+		Matrix(ROW row, COLUMN column, VALUE value)
+		{
+			Matrix::row = row;
+			Matrix::column = column;
+
+			Matrix::arr.resize(row);
+			for (int i = 0; i < Matrix::row; i++)
+			{
+				for (int j = 0; j < Matrix::column; j++)
+				{
+					Matrix::arr[i].push_back(value);
+				}
+			}
+		}
 		Matrix(VECTOR_DOUBLE vector)
 		{
 			ROW row = vector.size();
