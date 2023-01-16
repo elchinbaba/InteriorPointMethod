@@ -23,10 +23,14 @@ class InteriorPointMethod
 		}
 		void initializeOmega()
 		{
-			VECTOR_DOUBLE b_abs, c_abs;
+			VECTOR_DOUBLE b_abs;
 			for (int i = 0; i < ipm.b.size(); i++)
 			{
 				b_abs.push_back(abs(ipm.b[i]));
+			}
+			VECTOR_DOUBLE c_abs;
+			for (int i = 0; i < ipm.c.size(); i++)
+			{
 				c_abs.push_back(abs(ipm.c[i]));
 			}
 			VALUE b_max = *std::max_element(std::begin(b_abs), std::end(b_abs));
@@ -80,9 +84,13 @@ class InteriorPointMethod
 			a[a.size() - 1] = -1;
 			ipm_for_init.A.push_back(a);
 
-			ipm_for_init.b.push_back(-exp(10));
-			ipm_for_init.b.push_back(-exp(10));
-			POINT x = InteriorPointMethod(ipm_for_init, true).calculate();
+			ipm_for_init.b.push_back(-exp(5));
+			ipm_for_init.b.push_back(-exp(5));
+
+			InteriorPointMethod IPM = InteriorPointMethod(ipm_for_init, true);
+			IPM.initializeX(v);
+
+			POINT x = IPM.calculate(true);
 			POINT x_for_init;
 			for (int i = 0; i < x.size() - 1; i++)
 			{
@@ -92,29 +100,28 @@ class InteriorPointMethod
 		}
 		InteriorPointMethod(IPM ipm, bool doesStart)
 		{
-			VALUE t = 0;
-			for (int i = 0; i < ipm.b.size(); i++)
-			{
-				t += abs(ipm.b[i]);
-			}
-			t += 1.1;
-
 			if (doesStart)
 			{
 				this->ipm = ipm;
 				initializeOmega();
 				initializeQ();
-				initializeX(t);
 			}
 			else
 			{
+				VALUE t = 0;
+				for (int i = 0; i < ipm.b.size(); i++)
+				{
+					t += abs(ipm.b[i]);
+				}
+				t += 1;
+
 				this->ipm = ipm;
 				initializeOmega();
 				initializeQ();
 				initializeX(initialize(ipm, t));
 			}
 		}
-		POINT calculate()
+		POINT calculate(bool stopAtNegative)
 		{
 			LogBarrierFunction* lbf = new LogBarrierFunction(ipm, m_omega);
 			NewtonMethod* nm = new NewtonMethod(lbf, ipm.c.size());
@@ -124,11 +131,21 @@ class InteriorPointMethod
 			{
 				try
 				{
+					if (stopAtNegative)
+					{
+						//std::cout << "init" << "\n";
+						//Matrix(m_x).show();
+					}
 					m_x = Matrix::convertToVector(nm->iterate(m_x));
+					if (stopAtNegative && m_x[m_x.size() - 1] <= -exp(-5))
+					{
+						//std::cout << m_x[m_x.size() - 1] << " " << - exp(-5) << "\n";
+						break;
+					}
 				}
 				catch (std::exception e)
 				{
-					//std::cout << e.what() << " at iteration " << i << " \n";
+					std::cout << e.what() << " at iteration " << i << " \n";
 					VALUE sum1 = 0, sum2 = 0, sum3 = 0;
 					for (int i = 0; i < m_x.size() - 2; i++)
 					{

@@ -1,6 +1,7 @@
 #include <Python.h>
 #include "interior-point-method-all.hpp"
 #include "pyutils-all.hpp"
+#include <iostream>
 
 static PyObject* method_linprog(PyObject* self, PyObject* args) {
     PyObject* py_c, * py_A, * py_b;
@@ -11,6 +12,14 @@ static PyObject* method_linprog(PyObject* self, PyObject* args) {
     COEFFICIENTS c = listToVector(py_c);
     INEQUALITY_CONSTRAINT_ARRAY A = listToArray(py_A);
     INEQUALITY_CONSTRAINT_VECTOR b = listToVector(py_b);
+    std::cout << "c" << "\n";
+    Matrix(c).show();
+
+    std::cout << "A" << "\n";
+    Matrix(A).show();
+
+    std::cout << "b" << "\n";
+    Matrix(b).show();
 
     for (int i = 0; i < A.size(); i++)
     {
@@ -26,7 +35,12 @@ static PyObject* method_linprog(PyObject* self, PyObject* args) {
         return NULL;
     }
 
-    return vectorToList(InteriorPointMethod(IPM(c, A, b), false).calculate());
+    POINT result = InteriorPointMethod(IPM(c, A, b), false).calculate();
+
+    std::cout << "result" << "\n";
+    Matrix(result).show();
+
+    return vectorToList(result);
 }
 
 static PyMethodDef OptimizeMethods[] = {

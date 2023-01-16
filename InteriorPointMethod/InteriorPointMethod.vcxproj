@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="InteriorPointMethod.cpp" />
+    <ClCompile Include="setup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="differential-all.hpp" />
@@ -156,8 +157,12 @@
     <ClInclude Include="interior-point-method-all.hpp" />
     <ClInclude Include="matrix-all.hpp" />
     <ClInclude Include="newton-method-all.hpp" />
+    <ClInclude Include="pyutils-all.hpp" />
     <ClInclude Include="struct-ipm-all.hpp" />
     <ClInclude Include="typedef.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="setup.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

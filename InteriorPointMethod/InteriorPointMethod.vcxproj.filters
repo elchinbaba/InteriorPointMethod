@@ -39,6 +39,9 @@
     <ClCompile Include="InteriorPointMethod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="setup.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="typedef.h">
@@ -62,5 +65,13 @@
     <ClInclude Include="differential-all.hpp">
       <Filter>Header Files\differential</Filter>
     </ClInclude>
+    <ClInclude Include="pyutils-all.hpp">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="setup.py">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
