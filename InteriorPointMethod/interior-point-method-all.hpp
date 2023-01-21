@@ -35,6 +35,7 @@ class InteriorPointMethod
 
 			//VALUE alfa = 0.0001;
 			//VALUE O = alfa * n * L;
+			return 5;
 			return O;
 		}
 		VALUE detmax(ARRAY arr)

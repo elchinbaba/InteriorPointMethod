@@ -98,7 +98,9 @@ IPM goal_problem(json data, int i)
 
 	ipm.A[0].push_back(1);
 	ipm.A[0].push_back(-1);
-	for (int i = 1; i < ipm.A.size(); i++)
+	ipm.A[1].push_back(-1);
+	ipm.A[1].push_back(1);
+	for (int i = 2; i < ipm.A.size(); i++)
 	{
 		ipm.A[i].push_back(0);
 		ipm.A[i].push_back(0);
@@ -121,10 +123,60 @@ IPM goal_problem(json data, int i)
 		}
 
 		ipm.A.push_back(vector);
-		ipm.b.push_back(-50);
+		ipm.b.push_back(0);
 	}
 
 	return ipm;
+}
+
+IPM positive_goal_problem(IPM ipm)
+{
+	IPM positive_ipm;
+	/*positive_ipm.c.resize(2 * ipm.c.size());
+	positive_ipm.A.resize(ipm.A.size() + ipm.c.size());
+	positive_ipm.b.resize(ipm.b.size() + ipm.c.size());*/
+	for (int i = 0; i < ipm.c.size() - 2; i++)
+	{
+		positive_ipm.c.push_back(ipm.c[i]);
+		positive_ipm.c.push_back(-ipm.c[i]);
+	}
+	positive_ipm.c.push_back(ipm.c[ipm.c.size() - 2]);
+	positive_ipm.c.push_back(ipm.c[ipm.c.size() - 1]);
+	for (int i = 0; i < ipm.A.size() - ipm.c.size(); i++)
+	{
+		positive_ipm.A.push_back({});
+		for (int j = 0; j < ipm.A[i].size() - 2; j++)
+		{
+			positive_ipm.A[i].push_back(ipm.A[i][j]);
+			positive_ipm.A[i].push_back(-ipm.A[i][j]);
+		}
+		positive_ipm.A[i].push_back(ipm.A[i][ipm.A[i].size() - 2]);
+		positive_ipm.A[i].push_back(ipm.A[i][ipm.A[i].size() - 1]);
+	}
+	for (int i = 0; i < positive_ipm.c.size(); i++)
+	{
+		positive_ipm.A.push_back({});
+		for (int j = 0; j < positive_ipm.c.size(); j++)
+		{
+			if (j != i)
+			{
+				positive_ipm.A[ipm.A.size() - ipm.c.size() + i].push_back(0);
+			}
+			else
+			{
+				positive_ipm.A[ipm.A.size() - ipm.c.size() + i].push_back(1);
+			}
+		}
+	}
+	for (int i = 0; i < ipm.b.size(); i++)
+	{
+		positive_ipm.b.push_back(ipm.b[i]);
+	}
+	for (int i = 0; i < ipm.c.size() - 2; i++)
+	{
+		positive_ipm.b.push_back(0);
+	}
+	return positive_ipm;
 }
 
 #endif // !HELPERS_ALL

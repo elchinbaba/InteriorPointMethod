@@ -242,6 +242,14 @@ int main()
     for (int i = 0; i < 250; i++)
     {
         ipm = goal_problem(data, i);
+        ipm = positive_goal_problem(ipm);
+        /*std::cout << "A\n";
+        Matrix(ipm.A).show();
+        std::cout << "b\n";
+        Matrix(ipm.b).show();
+        std::cout << "c\n";
+        Matrix(ipm.c).show();
+        std::cout << "\n";*/
         m_x = InteriorPointMethod(ipm, false).calculate(false);
         summes.resize(0);
         for (int j = 0; j < ipm.b.size() - ipm.c.size(); j++)
