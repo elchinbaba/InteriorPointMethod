@@ -34,6 +34,12 @@
     <Filter Include="Header Files\struct-ipm">
       <UniqueIdentifier>{d57b3572-bbde-420b-bc1f-cd86da33d2cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\helpers">
+      <UniqueIdentifier>{6929b096-2de0-47c8-93d8-b14898ada20e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helpers\include">
+      <UniqueIdentifier>{b4d63010-e4a9-43eb-a58e-6f26f7906f2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InteriorPointMethod.cpp">
@@ -68,10 +74,25 @@
     <ClInclude Include="pyutils-all.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="helpers-all.hpp">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files\helpers\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="setup.py">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="example.json">
+      <Filter>Header Files\helpers</Filter>
+    </None>
+    <None Include="problems_goal_01-16-2023_03-38-09.json">
+      <Filter>Header Files\helpers</Filter>
+    </None>
+    <None Include="problems_01-08-2023_11-55-04.json">
+      <Filter>Header Files\helpers</Filter>
     </None>
   </ItemGroup>
 </Project>

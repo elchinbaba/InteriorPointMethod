@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "interior-point-method-all.hpp"
+#include "helpers-all.hpp"
 
 void checkNewton()
 {
@@ -222,7 +223,7 @@ void checkNewton()
     INEQUALITY_CONSTRAINT_VECTOR b = { 0.05, -0.05, 1.0, -1.0, 3.37, -3.37, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
     Matrix result;
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 1; i++)
     {
         result = InteriorPointMethod(IPM(c, A, b), false).calculate(false);
         result.show();
@@ -231,9 +232,51 @@ void checkNewton()
 
 int main()
 {
-    checkNewton();
+    int count = 0;
+    IPM ipm;
+    VECTOR_DOUBLE m_x;
+    VECTOR_DOUBLE summes;
 
-    //std::cout << "stop";
+    std::ifstream f("problems_goal_01-16-2023_03-38-09.json");
+    json data = json::parse(f);
+    for (int i = 0; i < 250; i++)
+    {
+        ipm = goal_problem(data, i);
+        m_x = InteriorPointMethod(ipm, false).calculate(false);
+        summes.resize(0);
+        for (int j = 0; j < ipm.b.size() - ipm.c.size(); j++)
+        {
+            if (ipm.b[j] == 0) break;
+            summes.push_back(0);
+            for (int k = 0; k < m_x.size(); k++)
+            {
+                summes[j] += ipm.A[j][k] * m_x[k];
+            }
+            if (abs(summes[j] - ipm.b[j]) > 0.01)
+            {
+                count++;
+                std::cout << "i " << i << "\n";
+                //Matrix(m_x).show();
+                for (int k = 0; k <= j; k++)
+                {
+                    std::cout << summes[k] << " ";
+                }
+                std::cout << "\n";
+
+                for (int k = 0; k < ipm.b.size() - ipm.c.size(); k++)
+                {
+                    std::cout << ipm.b[k] << " ";
+                }
+                std::cout << "\n";
+                std::cout << "\n";
+                break;
+            }
+        }
+    }
+
+    std::cout << "count " << count << "\n";
+
+    std::cout << "stop";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

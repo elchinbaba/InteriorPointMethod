@@ -156,25 +156,33 @@ class Matrix
 
 			return multipliedMatrix;
 		}
-		MATRIX* transpose()
+		VALUE abs()
 		{
-			ROW row = Matrix::column;
-			COLUMN column = Matrix::row;
-
-			MATRIX* transposedMatrix = new Matrix(row, column);
+			VALUE sum = 0;
 			for (int i = 0; i < row; i++)
 			{
 				for (int j = 0; j < column; j++)
 				{
-					transposedMatrix->arr[i][j] = Matrix::arr[j][i];
+					sum += arr[i][j] * arr[i][j];
 				}
 			}
-			this->setRow(row);
-			this->setColumn(column);
-			this->setArray(transposedMatrix->arr);
-			delete transposedMatrix;
+			return sqrt(sum);
+		}
+		MATRIX transpose()
+		{
+			ROW row = Matrix::column;
+			COLUMN column = Matrix::row;
 
-			return this;
+			MATRIX transposedMatrix = Matrix(row, column);
+			for (int i = 0; i < row; i++)
+			{
+				for (int j = 0; j < column; j++)
+				{
+					transposedMatrix.arr[i][j] = Matrix::arr[j][i];
+				}
+			}
+
+			return transposedMatrix;
 		}
 		VALUE determinant()
 		{
@@ -242,10 +250,10 @@ class Matrix
 			delete massiv;
 			return D;
 		}
-		MATRIX* inverse()
+		MATRIX inverse()
 		{
 			ARRAY_SIZE N = Matrix::row;
-			MATRIX* massiv = new Matrix(N, 2 * N);
+			MATRIX massiv = Matrix(N, 2 * N);
 			int i, j;
 			VALUE D = Matrix::determinant();
 
@@ -255,34 +263,35 @@ class Matrix
 			{
 				for (j = 0; j < N; j++)
 				{
-					massiv->arr[i][j] = Matrix::arr[i][j];
+					massiv.arr[i][j] = Matrix::arr[i][j];
 				}
 				for (j = N; j < 2 * N; j++)
 				{
-					if (j - N == i) massiv->arr[i][j] = 1;
-					else massiv->arr[i][j] = 0;
+					if (j - N == i) massiv.arr[i][j] = 1;
+					else massiv.arr[i][j] = 0;
 				}
 			}
 
+			MATRIX inverseMatrix = Matrix(N, N);
 			int k, t;
 			VALUE a_ii, a_ki;
 			for (i = 0; i < N; i++)
 			{
-				if (massiv->arr[i][i] != 0)
+				if (massiv.arr[i][i] != 0)
 				{
-					a_ii = massiv->arr[i][i];
+					a_ii = massiv.arr[i][i];
 					for (j = 0; j < 2 * N; j++)
 					{
-						massiv->arr[i][j] /= a_ii;
+						massiv.arr[i][j] /= a_ii;
 					}
 					for (k = 0; k < N; k++)
 					{
 						if (k != i)
 						{
-							a_ki = -massiv->arr[k][i];
+							a_ki = -massiv.arr[k][i];
 							for (j = 0; j < 2 * N; j++)
 							{
-								massiv->arr[k][j] += massiv->arr[i][j] * a_ki;
+								massiv.arr[k][j] += massiv.arr[i][j] * a_ki;
 							}
 						}
 					}
@@ -291,7 +300,7 @@ class Matrix
 				{
 					for (t = i + 1; t < N; t++)
 					{
-						if (massiv->arr[i][t] != 0)
+						if (massiv.arr[i][t] != 0)
 						{
 							break;
 						}
@@ -302,9 +311,9 @@ class Matrix
 					{
 						try
 						{
-							c = massiv->arr[j][i];
-							massiv->arr[j][i] = massiv->arr[j][t];
-							massiv->arr[j][t] = c;
+							c = massiv.arr[j][i];
+							massiv.arr[j][i] = massiv.arr[j][t];
+							massiv.arr[j][t] = c;
 						}
 						catch (std::exception ex)
 						{
@@ -318,12 +327,11 @@ class Matrix
 			{
 				for (j = 0; j < N; j++)
 				{
-					this->arr[i][j] = massiv->arr[i][j + N];
+					inverseMatrix.arr[i][j] = massiv.arr[i][j + N];
 				}
 			}
-			delete massiv;
 
-			return this;
+			return inverseMatrix;
 		}
 
 	public:

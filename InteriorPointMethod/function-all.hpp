@@ -27,7 +27,7 @@ class LogBarrierFunction : public Function
 		}
 		VALUE getValue(VECTOR_DOUBLE &a, POINT &x)
 		{
-			return Matrix(a).transpose()->multiply(Matrix(x)).arr[0][0];
+			return Matrix(a).transpose().multiply(Matrix(x)).arr[0][0];
 		}
 		VALUE call(POINT x)
 		{

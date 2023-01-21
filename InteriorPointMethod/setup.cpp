@@ -13,14 +13,14 @@
 //    INEQUALITY_CONSTRAINT_ARRAY A = listToArray(py_A);
 //    INEQUALITY_CONSTRAINT_VECTOR b = listToVector(py_b);
 //
-//    std::cout << "c" << "\n";
-//    Matrix(c).show();
+//    //std::cout << "c" << "\n";
+//    //Matrix(c).show();
 //
-//    std::cout << "A" << "\n";
-//    Matrix(A).show();
+//    //std::cout << "A" << "\n";
+//    //Matrix(A).show();
 //
-//    std::cout << "b" << "\n";
-//    Matrix(b).show();
+//    //std::cout << "b" << "\n";
+//    //Matrix(b).show();
 //
 //    for (int i = 0; i < A.size(); i++)
 //    {

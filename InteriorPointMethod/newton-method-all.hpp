@@ -11,6 +11,9 @@ class NewtonMethod
 		Function* function;
 		IPM ipm;
 		OMEGA omega;
+		VALUE alfa = 0.85;
+		POINT x_old;
+		MATRIX gradient_old;
 	public:
 		MATRIX hessian;
 		MATRIX gradient;
@@ -18,7 +21,7 @@ class NewtonMethod
 	public:
 		VALUE linearFunction(VECTOR_DOUBLE v, VECTOR_DOUBLE x)
 		{
-			return Matrix(v).transpose()->multiply(Matrix(x)).arr[0][0];
+			return Matrix(v).transpose().multiply(Matrix(x)).arr[0][0];
 		}
 		void setHessian(MATRIX &hessian)
 		{
@@ -41,6 +44,14 @@ class NewtonMethod
 			NewtonMethod::function = function;
 			NewtonMethod::gradient = Matrix(n, 1);
 			NewtonMethod::hessian = Matrix(n, n);
+		}
+		NewtonMethod(Function* function, ARRAY_SIZE n, POINT x)
+		{
+			NewtonMethod::function = function;
+			NewtonMethod::gradient = Matrix(n, 1);
+			NewtonMethod::hessian = Matrix(n, n);
+			NewtonMethod::x_old = x;
+			NewtonMethod::gradient_old = findGradient(function, x_old);
 		}
 
 	public:
@@ -66,44 +77,51 @@ class NewtonMethod
 			MATRIX h = Matrix(hessian.row, hessian.column, 0);
 			for (int i = 0; i < ipm.b.size(); i++)
 			{
-				h = h + (1 / pow(linearFunction(ipm.A[i], point) - ipm.b[i], 2)) * Matrix(ipm.A[i]).multiply(*Matrix(ipm.A[i]).transpose());
+				h = h + (1 / pow(linearFunction(ipm.A[i], point) - ipm.b[i], 2)) * Matrix(ipm.A[i]).multiply(Matrix(ipm.A[i]).transpose());
 			}
 			hessian = h;
 		}
-		void findGradient(Function*& function, POINT& point)
+		MATRIX findGradient(Function*& function, POINT& point)
 		{
 			MATRIX g = Matrix(gradient.row, gradient.column, 0);
 			for (int i = 0; i < ipm.b.size(); i++)
 			{
 				g = g + (1 / (linearFunction(ipm.A[i], point) - ipm.b[i])) * Matrix(ipm.A[i]);
 			}
-			gradient = g + omega * Matrix(ipm.c);
+			return g + omega * Matrix(ipm.c);
 		}
 		MATRIX iterate(POINT x)
 		{
 			//evaluateHessian(function, x);
 			//evaluateGradient(function, x);
 
-			findGradient(function, x);
+			gradient = findGradient(function, x);
 			findHessian(function, x);
 
+			MATRIX inverse;
 			MATRIX subtract;
 			try
 			{
-				subtract = *(hessian.inverse()) * gradient;
+				inverse = hessian.inverse();
 			}
 			catch (std::exception ex)
 			{
 				throw ex;
 			}
-			
-			VALUE checkNaN = subtract.arr[0][0];
-			if (checkNaN != checkNaN)
-			{
-				throw std::exception("NaN found");
-			}
 
-			return Matrix(x) - subtract;
+			subtract = inverse * gradient;
+			for (int i = 0; i < subtract.row; i++)
+			{
+				for (int j = 0; j < subtract.column; j++)
+				{
+					if (subtract.arr[i][j] != subtract.arr[i][j])
+					{
+						throw std::exception("NaN found");
+					}
+				}
+			}
+			
+			return Matrix(x) - alfa * subtract;
 		}
 };
 
