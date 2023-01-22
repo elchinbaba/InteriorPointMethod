@@ -169,11 +169,6 @@
     <None Include="problems_goal_01-16-2023_03-38-09.json" />
     <None Include="setup.py" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Documents\nlohmann\nlohmann.vcxproj">
-      <Project>{d918de7f-dcb5-4991-814c-44793f16f10e}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

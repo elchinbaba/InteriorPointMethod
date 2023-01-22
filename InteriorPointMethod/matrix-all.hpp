@@ -187,22 +187,22 @@ class Matrix
 		VALUE determinant()
 		{
 			ARRAY_SIZE N = Matrix::row;
-			MATRIX* massiv = new Matrix(Matrix::arr);
+			MATRIX massiv = Matrix(Matrix::arr);
 			int i, j;
 			int r = 0, n = 0;
 			int k;
 			VALUE a_ii, a_ki;
 			for (int i = 0; i < N - 1; i++)
 			{
-				if (massiv->arr[i][i] != 0)
+				if (massiv.arr[i][i] != 0)
 				{
-					a_ii = massiv->arr[i][i];
+					a_ii = massiv.arr[i][i];
 					for (k = i + 1; k < N; k++)
 					{
-						a_ki = -massiv->arr[k][i];
+						a_ki = -massiv.arr[k][i];
 						for (j = 0; j < N; j++)
 						{
-							massiv->arr[k][j] += massiv->arr[i][j] * (a_ki / a_ii);
+							massiv.arr[k][j] += massiv.arr[i][j] * (a_ki / a_ii);
 						}
 					}
 				}
@@ -211,7 +211,7 @@ class Matrix
 					int t;
 					for (t = i + 1; t < N; t++)
 					{
-						if (massiv->arr[i][t] != 0)
+						if (massiv.arr[i][t] != 0)
 						{
 							break;
 						}
@@ -223,9 +223,9 @@ class Matrix
 						VALUE c;
 						for (j = 0; j < N; j++)
 						{
-							c = massiv->arr[j][i];
-							massiv->arr[j][i] = massiv->arr[j][t];
-							massiv->arr[j][t] = c;
+							c = massiv.arr[j][i];
+							massiv.arr[j][i] = massiv.arr[j][t];
+							massiv.arr[j][t] = c;
 						}
 						i = i - 1;
 						continue;
@@ -242,12 +242,12 @@ class Matrix
 			case 0:
 				D = pow(-1, n);
 				for (i = 0; i < N; i++)
-					D *= massiv->arr[i][i];
+					D *= massiv.arr[i][i];
 				break;
 			case 1:
 				D = 0; break;
 			}
-			delete massiv;
+
 			return D;
 		}
 		MATRIX inverse()
@@ -430,7 +430,7 @@ class Matrix
 		}
 
 	public:
-		MATRIX static convert(VECTOR_DOUBLE& vector)
+		static MATRIX convert(VECTOR_DOUBLE& vector)
 		{
 			ROW row = vector.size();
 			COLUMN column = 1;
